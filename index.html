@@ -76,8 +76,8 @@
           <h1 class="font-display font-black text-2xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
             Quali<span class="text-emerald-400">Timer</span>
           </h1>
-          <!-- Badge de version v0.2 -->
-          <span class="px-2 py-0.5 text-xs font-semibold bg-slate-800 text-slate-300 rounded-md border border-slate-700/85">v0.2</span>
+          <!-- Badge de version v0.4 -->
+          <span class="px-2 py-0.5 text-xs font-semibold bg-slate-800 text-slate-300 rounded-md border border-slate-700/85">v0.4</span>
         </div>
       </div>
       <div class="flex items-center gap-3 text-xs sm:text-sm text-slate-400">
@@ -91,10 +91,10 @@
   <!-- MAIN CONTAINER -->
   <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
     
-    <!-- LEFT / TIMER DASHBOARD (8 Cols on LG) -->
+    <!-- LEFT / TIMER DASHBOARD (7 Cols on LG) -->
     <section class="lg:col-span-7 flex flex-col gap-6">
 
-      <!-- DISPLAY DISPLAY CARD -->
+      <!-- DISPLAY CARD -->
       <div id="timerCard" class="bg-slate-900 border-2 border-slate-800 rounded-3xl p-6 sm:p-8 transition-all duration-500 relative overflow-hidden shadow-2xl">
         
         <!-- Status Indicator Bar -->
@@ -193,50 +193,83 @@
     <!-- RIGHT / AUDIO & SPOTIFY PREMIUM SECTION (5 Cols on LG) -->
     <section class="lg:col-span-5 flex flex-col gap-6">
 
-      <!-- SPOTIFY PREMIUM SDK INTEGRATION CARD -->
+      <!-- SPOTIFY CONNECT CARD -->
       <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col gap-4">
         <div class="flex items-center justify-between">
           <h2 class="font-display font-bold text-lg text-white flex items-center gap-2">
-            <i class="fa-brands fa-spotify text-emerald-500 text-xl"></i> Lecteur Spotify Premium
+            <i class="fa-brands fa-spotify text-emerald-500 text-2xl"></i> Spotify Premium
           </h2>
-          <span id="spotifyStatusBadge" class="text-[10px] text-amber-400 bg-amber-950/60 px-2.5 py-1 rounded-md border border-amber-800/50 font-semibold">Déconnecté</span>
+          <span id="spotifyBadge" class="text-[10px] text-amber-400 bg-amber-950/60 px-2.5 py-1 rounded-md border border-amber-800/50 font-semibold">
+            Non connecté
+          </span>
         </div>
 
-        <p class="text-xs text-slate-400">
-          Connecte ton compte Spotify Premium pour écouter tes musiques en entier sans limitation de preview (SDK Web Playback).
-        </p>
+        <!-- CONNECT BUTTON BLOCK (Shown when not connected) -->
+        <div id="spotifyLoginBox" class="flex flex-col gap-3 bg-slate-950 p-4 rounded-2xl border border-slate-800">
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Connectez votre compte <strong>Spotify Premium</strong> pour diffuser vos musiques complètes et vos playlists directement dans QualiTimer.
+          </p>
 
-        <!-- CONFIGURATION CLIENT ID & LOGIN -->
-        <div id="spotifyLoginSection" class="flex flex-col gap-3 bg-slate-950 p-4 rounded-2xl border border-slate-800">
-          <label class="text-xs font-semibold text-slate-300">Client ID Spotify (Application Developer)</label>
-          <div class="flex gap-2">
-            <input type="text" id="spotifyClientId" placeholder="Colle ton Client ID Spotify ici" class="flex-1 bg-slate-900 text-slate-200 text-xs rounded-xl px-3 py-2 border border-slate-700 focus:outline-none focus:border-emerald-500">
-            <button onclick="loginSpotify()" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-xl text-xs font-bold transition">
-              Se connecter
-            </button>
-          </div>
-          <span class="text-[10px] text-slate-500">Redirige vers l'authentification officielle sécurisée Spotify.</span>
+          <button onclick="startSpotifyConnect()" class="w-full py-3 px-4 bg-emerald-500 hover:bg-emerald-400 active:scale-95 text-slate-950 rounded-xl font-bold text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20">
+            <i class="fa-brands fa-spotify text-lg"></i> Se connecter à Spotify Premium
+          </button>
+
+          <!-- App Key setting toggler (optional fallback) -->
+          <details class="text-[11px] text-slate-400 mt-1 cursor-pointer">
+            <summary class="hover:text-slate-200">Paramètres de connexion avancés / Client ID personnalisé</summary>
+            <div class="mt-2 flex flex-col gap-2 pt-2 border-t border-slate-800">
+              <label class="text-[10px] text-slate-400">Client ID Spotify de votre App (facultatif) :</label>
+              <input type="text" id="customClientIdInput" placeholder="Ex: 4a9f..." class="w-full bg-slate-900 text-xs text-white rounded-lg p-2 border border-slate-700">
+              <button onclick="saveCustomClientId()" class="py-1 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold">
+                Sauvegarder le Client ID
+              </button>
+            </div>
+          </details>
         </div>
 
-        <!-- PLAYER CONTROLS (Visible once connected) -->
-        <div id="spotifyPlayerControls" class="hidden flex flex-col gap-3 bg-slate-950 p-4 rounded-2xl border border-emerald-800/50">
-          <div class="flex items-center justify-between">
-            <span id="nowPlayingText" class="text-xs font-bold text-emerald-400 truncate">Appareil QualiTimer prêt</span>
-            <button onclick="toggleSpotifyPlayPause()" id="spotifyPlayPauseBtn" class="w-8 h-8 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center text-xs">
-              <i class="fa-solid fa-play"></i>
+        <!-- PLAYER CONTROLS BLOCK (Shown when connected) -->
+        <div id="spotifyPlayerControlsBox" class="hidden flex flex-col gap-4 bg-slate-950 p-4 rounded-2xl border border-emerald-800/50">
+          <!-- Currently Playing Track Info -->
+          <div class="flex items-center gap-3">
+            <div id="trackCover" class="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0 border border-slate-700">
+              <i class="fa-solid fa-music text-slate-500"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div id="trackName" class="text-xs font-bold text-white truncate">Prêt à jouer</div>
+              <div id="trackArtist" class="text-[11px] text-slate-400 truncate">Connecté à Spotify SDK</div>
+            </div>
+            <button onclick="toggleSpotifyPlay()" id="spotifyPlayBtn" class="w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 flex items-center justify-center font-bold transition flex-shrink-0 shadow-lg shadow-emerald-500/20">
+              <i class="fa-solid fa-play text-sm"></i>
             </button>
           </div>
-          <div class="flex gap-2">
-            <input type="text" id="spotifyUriInput" placeholder="URI Spotify (ex: spotify:playlist:37i9dQZF1DX76Wlfdnj7AP)" class="flex-1 bg-slate-900 text-slate-200 text-xs rounded-xl px-3 py-2 border border-slate-700 focus:outline-none focus:border-emerald-500">
-            <button onclick="playSpotifyUri()" class="px-3 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 border border-emerald-500/30 rounded-xl text-xs font-bold transition">
-              Diffuser
-            </button>
+
+          <!-- Controls bar -->
+          <div class="flex items-center justify-between text-xs pt-2 border-t border-slate-800">
+            <button onclick="previousTrack()" class="text-slate-400 hover:text-white transition"><i class="fa-solid fa-backward-step"></i> Précédent</button>
+            <button onclick="nextTrack()" class="text-slate-400 hover:text-white transition">Suivant <i class="fa-solid fa-forward-step"></i></button>
+            <button onclick="logoutSpotify()" class="text-red-400 hover:text-red-300 text-[11px] font-semibold"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</button>
+          </div>
+
+          <!-- Playlists quick loader -->
+          <div class="pt-2 border-t border-slate-800">
+            <span class="text-[11px] text-slate-400 block mb-2 font-medium">Lancer une playlist :</span>
+            <div class="flex flex-wrap gap-1.5">
+              <button onclick="playSpotifyUri('spotify:playlist:37i9dQZF1DX76Wlfdnj7AP')" class="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-xs border border-slate-800 flex items-center gap-1">
+                <i class="fa-solid fa-bolt text-amber-400 text-[10px]"></i> Workout
+              </button>
+              <button onclick="playSpotifyUri('spotify:playlist:37i9dQZF1DX70rn8cfaG9M')" class="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-xs border border-slate-800 flex items-center gap-1">
+                <i class="fa-solid fa-fire text-red-400 text-[10px]"></i> Power
+              </button>
+              <button onclick="playSpotifyUri('spotify:playlist:37i9dQZF1DXdLENyoT12hM')" class="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-xs border border-slate-800 flex items-center gap-1">
+                <i class="fa-solid fa-running text-emerald-400 text-[10px]"></i> Cardio
+              </button>
+            </div>
           </div>
         </div>
 
-        <!-- FALLBACK IFRAME (si besoin d'un aperçu rapide) -->
-        <div id="spotifyContainer" class="w-full bg-slate-950 rounded-2xl overflow-hidden min-h-[152px] border border-slate-800 flex items-center justify-center">
-          <iframe id="spotifyPlayer" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX76Wlfdnj7AP?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        <!-- FALLBACK EMBED PLAYER IF NOT LOGGED IN -->
+        <div id="spotifyEmbedBox" class="w-full bg-slate-950 rounded-2xl overflow-hidden min-h-[152px] border border-slate-800 flex items-center justify-center">
+          <iframe id="spotifyIframe" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX76Wlfdnj7AP?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
       </div>
 
@@ -250,7 +283,7 @@
         </div>
 
         <p class="text-xs text-slate-400 mb-4">
-          Ces sons se produisent en arrière-plan et se superposent à la musique Spotify sans l'interrompre.
+          Ces signaux audio se superposent par-dessus la musique Spotify sans interrompre votre session.
         </p>
 
         <!-- VOLUME CONTROL SLIDER -->
@@ -339,72 +372,106 @@
     let masterVolume = 0.8;
     let audioCtx = null;
 
-    // Spotify SDK vars
-    let spotifyPlayerInstance = null;
-    let spotifyDeviceId = null;
+    // Spotify OAuth & SDK vars
+    // Default public client ID fallback (can be overwritten by user)
+    const DEFAULT_SPOTIFY_CLIENT_ID = "2ef3d6835a6c4a3aa822d0fb15e58043"; 
     let spotifyAccessToken = localStorage.getItem('spotify_access_token') || null;
+    let spotifyPlayer = null;
+    let spotifyDeviceId = null;
+    let isPlayingSpotify = false;
 
-    // --- SPOTIFY OAUTH & WEB PLAYBACK SDK LOGIC ---
-    function loginSpotify() {
-      const clientId = document.getElementById('spotifyClientId').value.trim() || localStorage.getItem('spotify_client_id');
-      if (!clientId) {
-        alert("Veuillez entrer votre Client ID Spotify.");
-        return;
+    // --- SPOTIFY OAUTH IMPLICIT GRANT & PLAYBACK SDK ---
+    function getSpotifyClientId() {
+      return localStorage.getItem('spotify_custom_client_id') || DEFAULT_SPOTIFY_CLIENT_ID;
+    }
+
+    function saveCustomClientId() {
+      const val = document.getElementById('customClientIdInput').value.trim();
+      if (val) {
+        localStorage.setItem('spotify_custom_client_id', val);
+        alert("Client ID Spotify sauvegardé ! Vous pouvez maintenant vous connecter.");
       }
-      localStorage.setItem('spotify_client_id', clientId);
+    }
+
+    function startSpotifyConnect() {
+      const clientId = getSpotifyClientId();
       const redirectUri = window.location.origin + window.location.pathname;
-      const scopes = "streaming user-read-private user-read-email user-modify-playback-state user-read-playback-state";
+      const scopes = [
+        "streaming",
+        "user-read-email",
+        "user-read-private",
+        "user-read-playback-state",
+        "user-modify-playback-state"
+      ].join(" ");
+
+      const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}&response_type=token&show_dialog=true`;
       
-      const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}`;
       window.location.href = authUrl;
     }
 
-    // Check URL hash for token after redirect
-    window.addEventListener('load', () => {
+    function checkSpotifyAuthRedirect() {
       const hash = window.location.hash.substring(1);
-      const params = new URLSearchParams(hash);
-      const token = params.get('access_token');
-      if (token) {
-        spotifyAccessToken = token;
-        localStorage.setItem('spotify_access_token', token);
-        window.location.hash = ''; // Clear hash
+      if (hash) {
+        const params = new URLSearchParams(hash);
+        const accessToken = params.get('access_token');
+        if (accessToken) {
+          spotifyAccessToken = accessToken;
+          localStorage.setItem('spotify_access_token', accessToken);
+          window.location.hash = ''; // Clean URL
+        }
       }
 
       if (spotifyAccessToken) {
-        initSpotifySDK();
+        setupSpotifyPlayer();
       }
-    });
+    }
 
-    function initSpotifySDK() {
+    function setupSpotifyPlayer() {
+      document.getElementById('spotifyLoginBox').classList.add('hidden');
+      document.getElementById('spotifyEmbedBox').classList.add('hidden');
+      document.getElementById('spotifyPlayerControlsBox').classList.remove('hidden');
+
+      const badge = document.getElementById('spotifyBadge');
+      badge.innerText = "Spotify Premium Actif";
+      badge.className = "text-[10px] text-emerald-400 bg-emerald-950/60 px-2.5 py-1 rounded-md border border-emerald-800/50 font-semibold";
+
       window.onSpotifyWebPlaybackSDKReady = () => {
-        const token = spotifyAccessToken;
-        spotifyPlayerInstance = new Spotify.Player({
+        spotifyPlayer = new Spotify.Player({
           name: 'QualiTimer Web Player',
-          getOAuthToken: cb => { cb(token); },
-          volume: 0.5
+          getOAuthToken: cb => { cb(spotifyAccessToken); },
+          volume: 0.8
         });
 
-        spotifyPlayerInstance.addListener('ready', ({ device_id }) => {
+        spotifyPlayer.addListener('ready', ({ device_id }) => {
           spotifyDeviceId = device_id;
-          document.getElementById('spotifyStatusBadge').innerText = "Connecté Premium";
-          document.getElementById('spotifyStatusBadge').className = "text-[10px] text-emerald-400 bg-emerald-950/60 px-2.5 py-1 rounded-md border border-emerald-800/50 font-semibold";
-          document.getElementById('spotifyLoginSection').classList.add('hidden');
-          document.getElementById('spotifyPlayerControls').classList.remove('hidden');
+          console.log('Appareil Spotify QualiTimer prêt avec ID:', device_id);
         });
 
-        spotifyPlayerInstance.addListener('not_ready', ({ device_id }) => {
-          console.log('Appareil Spotify déconnecté ID:', device_id);
-        });
-
-        spotifyPlayerInstance.addListener('player_state_changed', state => {
+        spotifyPlayer.addListener('player_state_changed', state => {
           if (!state) return;
-          const track = state.track_window.current_track;
-          if (track) {
-            document.getElementById('nowPlayingText').innerText = `${track.name} - ${track.artists[0].name}`;
+          const currentTrack = state.track_window.current_track;
+          if (currentTrack) {
+            document.getElementById('trackName').innerText = currentTrack.name;
+            document.getElementById('trackArtist').innerText = currentTrack.artists.map(a => a.name).join(', ');
+            
+            const coverUrl = currentTrack.album.images[0]?.url;
+            if (coverUrl) {
+              document.getElementById('trackCover').innerHTML = `<img src="${coverUrl}" class="w-full h-full object-cover">`;
+            }
           }
+          isPlayingSpotify = !state.paused;
+          document.getElementById('spotifyPlayBtn').innerHTML = isPlayingSpotify 
+            ? '<i class="fa-solid fa-pause text-sm"></i>' 
+            : '<i class="fa-solid fa-play text-sm"></i>';
         });
 
-        spotifyPlayerInstance.connect();
+        spotifyPlayer.addListener('initialization_error', ({ message }) => console.error(message));
+        spotifyPlayer.addListener('authentication_error', ({ message }) => {
+          console.error("Session Spotify expirée", message);
+          logoutSpotify();
+        });
+
+        spotifyPlayer.connect();
       };
 
       if (window.Spotify) {
@@ -412,20 +479,25 @@
       }
     }
 
-    function toggleSpotifyPlayPause() {
-      if (spotifyPlayerInstance) {
-        spotifyPlayerInstance.togglePlay();
+    function toggleSpotifyPlay() {
+      if (spotifyPlayer) {
+        spotifyPlayer.togglePlay();
       }
     }
 
-    function playSpotifyUri() {
-      const uri = document.getElementById('spotifyUriInput').value.trim();
-      const clientId = localStorage.getItem('spotify_client_id');
-      if (!uri || !spotifyAccessToken || !spotifyDeviceId) {
-        alert("Assurez-vous d'être connecté et d'entrer une URI Spotify valide.");
+    function previousTrack() {
+      if (spotifyPlayer) spotifyPlayer.previousTrack();
+    }
+
+    function nextTrack() {
+      if (spotifyPlayer) spotifyPlayer.nextTrack();
+    }
+
+    function playSpotifyUri(uri) {
+      if (!spotifyAccessToken || !spotifyDeviceId) {
+        alert("Veuillez vous connecter à Spotify Premium d'abord.");
         return;
       }
-
       fetch(`https://api.spotify.com/v1/me/player/play?device_id=${spotifyDeviceId}`, {
         method: 'PUT',
         body: JSON.stringify({ context_uri: uri }),
@@ -433,10 +505,17 @@
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${spotifyAccessToken}`
         }
-      });
+      }).catch(err => console.error("Erreur de lecture Spotify:", err));
     }
 
-    // --- WEB AUDIO CONTEXT ---
+    function logoutSpotify() {
+      spotifyAccessToken = null;
+      localStorage.removeItem('spotify_access_token');
+      if (spotifyPlayer) spotifyPlayer.disconnect();
+      location.reload();
+    }
+
+    // --- WEB AUDIO CONTEXT FOR OVERLAY SOUNDS ---
     function getAudioContext() {
       if (!audioCtx) {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -452,7 +531,6 @@
       const slider = document.getElementById('volumeControl');
       const val = parseInt(slider.value) || 0;
       masterVolume = val / 100;
-      document.getElementById('spotifyStatusBadge'); // placeholder
 
       const percentDisplay = document.getElementById('volumePercentDisplay');
       if (percentDisplay) {
@@ -553,7 +631,7 @@
           });
         }
       } catch (err) {
-        console.error("Erreur lecture son:", err);
+        console.error("Erreur son:", err);
       }
     }
 
@@ -762,6 +840,7 @@
     window.onload = function() {
       validateInputs();
       updateVolumeDisplay();
+      checkSpotifyAuthRedirect();
     };
   </script>
 </body>
