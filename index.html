@@ -74,8 +74,8 @@
           <h1 class="font-display font-black text-2xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
             Quali<span class="text-emerald-400">Timer</span>
           </h1>
-          <!-- Badge de version v0.10 -->
-          <span class="px-2 py-0.5 text-xs font-semibold bg-slate-800 text-slate-300 rounded-md border border-slate-700/85">v0.10</span>
+          <!-- Badge de version v0.14 -->
+          <span class="px-2 py-0.5 text-xs font-semibold bg-slate-800 text-slate-300 rounded-md border border-slate-700/85">v0.14</span>
         </div>
       </div>
       <div class="flex items-center gap-3 text-xs sm:text-sm text-slate-400">
@@ -209,14 +209,14 @@
           </div>
           <ol class="text-xs text-slate-300 space-y-1.5 pl-4 list-decimal">
             <li>Ouvrez votre application <strong>Spotify</strong> (sur téléphone, PC ou tablette).</li>
-            <li>Lancez votre playlist ou vos titres préférés.</li>
-            <li>Lancez le chrono <strong>QualiTimer</strong> : les signaux sonores (bips, cloches) retentiront <strong>par-dessus votre musique</strong> sans la couper !</li>
+            <li>Lancez votre musique ou playlist habituelle.</li>
+            <li>Lancez le chrono <strong>QualiTimer</strong> : les signaux sonores retentiront <strong>par-dessus votre musique</strong> sans la couper !</li>
           </ol>
         </div>
 
         <!-- SPOTIFY PLAYLIST URL INPUT -->
         <div class="flex flex-col gap-2">
-          <label for="spotifyUrlInput" class="text-xs text-slate-400 font-medium">Charger une playlist via son lien Spotify :</label>
+          <label for="spotifyUrlInput" class="text-xs text-slate-400 font-medium">Charger une autre playlist via son lien Spotify :</label>
           <div class="flex gap-2">
             <input type="text" id="spotifyUrlInput" placeholder="Collez l'URL de votre playlist Spotify..." class="flex-1 bg-slate-950 text-slate-200 text-xs rounded-xl px-3 py-2 border border-slate-700 focus:outline-none focus:border-emerald-500">
             <button onclick="loadSpotifyFromInput()" class="px-3.5 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-xl text-xs font-bold transition">
@@ -227,23 +227,22 @@
 
         <!-- QUICK PLAYLIST PRESETS (EMBED) -->
         <div>
-          <span class="text-xs text-slate-400 block mb-2 font-medium">Ou sélectionnez nos playlists d'entraînement :</span>
-          <div class="flex flex-wrap gap-2">
-            <button onclick="loadSpotifyEmbed('playlist/37i9dQZF1DX76Wlfdnj7AP')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition border border-slate-700 flex items-center gap-1.5">
-              <i class="fa-solid fa-bolt text-amber-400 text-[10px]"></i> Workout Beats
+          <span class="text-xs text-slate-400 block mb-2 font-medium">Vos playlists d'entraînement :</span>
+          <div class="flex flex-col gap-2">
+            <button onclick="loadSpotifyEmbed('playlist/3ByuRY3WO3aPFo10iFUorU')" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold transition border border-slate-700/80 flex items-center justify-between text-left">
+              <span class="truncate"><i class="fa-solid fa-fire text-amber-400 mr-2"></i>Viandox - Full Ambiance ! CHAPITAULE !!!!!</span>
+              <i class="fa-brands fa-spotify text-emerald-400 text-sm"></i>
             </button>
-            <button onclick="loadSpotifyEmbed('playlist/37i9dQZF1DX70rn8cfaG9M')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition border border-slate-700 flex items-center gap-1.5">
-              <i class="fa-solid fa-fire text-red-400 text-[10px]"></i> Power Workout
-            </button>
-            <button onclick="loadSpotifyEmbed('playlist/37i9dQZF1DXdLENyoT12hM')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition border border-slate-700 flex items-center gap-1.5">
-              <i class="fa-solid fa-running text-emerald-400 text-[10px]"></i> Cardio
+            <button onclick="loadSpotifyEmbed('playlist/2hSU2w8rGO72fXsukudOiS')" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold transition border border-slate-700/80 flex items-center justify-between text-left">
+              <span class="truncate"><i class="fa-solid fa-bolt text-indigo-400 mr-2"></i>Team Discobolos 2025-2026</span>
+              <i class="fa-brands fa-spotify text-emerald-400 text-sm"></i>
             </button>
           </div>
         </div>
 
         <!-- FALLBACK EMBED PLAYER -->
         <div id="spotifyEmbedBox" class="w-full bg-slate-950 rounded-2xl overflow-hidden min-h-[152px] border border-slate-800 flex items-center justify-center">
-          <iframe id="spotifyIframe" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX76Wlfdnj7AP?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+          <iframe id="spotifyIframe" src="https://open.spotify.com/embed/playlist/3ByuRY3WO3aPFo10iFUorU?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
       </div>
 
@@ -253,11 +252,11 @@
           <h2 class="font-display font-bold text-lg text-white flex items-center gap-2">
             <i class="fa-solid fa-volume-high text-emerald-400"></i> Signal Audio Superposé
           </h2>
-          <span class="text-xs text-slate-400 bg-slate-800 px-2.5 py-1 rounded-full border border-slate-700">Synthèse WebAudio</span>
+          <span class="text-xs text-slate-400 bg-slate-800 px-2.5 py-1 rounded-full border border-slate-700">Haute Audibilité</span>
         </div>
 
         <p class="text-xs text-slate-400 mb-4">
-          Ces signaux audio se superposent par-dessus la musique Spotify sans interrompre votre session.
+          Signaux sonores prolongés et amplifiés pour être parfaitement audibles au-dessus du son de votre musique.
         </p>
 
         <!-- VOLUME CONTROL SLIDER -->
@@ -281,15 +280,10 @@
             <label class="block text-xs font-semibold text-slate-300 mb-1.5">Son Début d'Exercice</label>
             <div class="flex gap-2">
               <select id="workSound" class="flex-1 bg-slate-900 text-slate-200 text-sm rounded-xl px-3 py-2 border border-slate-700 focus:outline-none focus:border-emerald-500">
-                <option value="boxingBell">Cloche de boxe (Double)</option>
-                <option value="whistle">Sifflet d'arbitre</option>
-                <option value="beepHigh">Bip Aigu (High Beep)</option>
-                <option value="beepLow">Bip Grave (Low Beep)</option>
-                <option value="doubleBeep">Double Bip Rapide</option>
-                <option value="laser">Laser / Sci-Fi</option>
-                <option value="chime">Carillon Épuré</option>
-                <option value="alarm">Alarme Énergique</option>
-                <option value="gong">Gong Méditatif</option>
+                <option value="boxingGong">Gong de Boxe Lourd (Double)</option>
+                <option value="loudWhistle">Sifflet d'Arbitre Strident</option>
+                <option value="tripleAlarm">Signal Alarme (3 Bips Forts)</option>
+                <option value="resonantChime">Carillon Résonant Long</option>
               </select>
               <button onclick="testSound('workSound')" class="px-3 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
                 <i class="fa-solid fa-play text-xs"></i> Tester
@@ -302,13 +296,10 @@
             <label class="block text-xs font-semibold text-slate-300 mb-1.5">Son Début de Repos</label>
             <div class="flex gap-2">
               <select id="restSound" class="flex-1 bg-slate-900 text-slate-200 text-sm rounded-xl px-3 py-2 border border-slate-700 focus:outline-none focus:border-orange-500">
-                <option value="whistle">Sifflet d'arbitre</option>
-                <option value="boxingBell">Cloche de boxe</option>
-                <option value="beepLow">Bip Grave (Low Beep)</option>
-                <option value="beepHigh">Bip Aigu (High Beep)</option>
-                <option value="doubleBeep">Double Bip Rapide</option>
-                <option value="chime">Carillon Épuré</option>
-                <option value="gong">Gong Méditatif</option>
+                <option value="loudWhistle">Sifflet d'Arbitre Strident</option>
+                <option value="boxingGong">Gong de Boxe Lourd</option>
+                <option value="tripleAlarm">Signal Alarme (3 Bips Forts)</option>
+                <option value="resonantChime">Carillon Résonant Long</option>
               </select>
               <button onclick="testSound('restSound')" class="px-3 py-2 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
                 <i class="fa-solid fa-play text-xs"></i> Tester
@@ -321,11 +312,9 @@
             <label class="block text-xs font-semibold text-slate-300 mb-1.5">Son Fin d'Entraînement</label>
             <div class="flex gap-2">
               <select id="finishSound" class="flex-1 bg-slate-900 text-slate-200 text-sm rounded-xl px-3 py-2 border border-slate-700 focus:outline-none focus:border-indigo-500">
-                <option value="fanfare">Fanfare Victoire (Tada!)</option>
-                <option value="chime">Carillon Épuré Final</option>
-                <option value="alarm">Alarme de Fin</option>
-                <option value="gong">Gong Méditatif Final</option>
-                <option value="boxingBell">Triple Cloche de Boxe</option>
+                <option value="longFanfare">Fanfare Triomphale Prolongée</option>
+                <option value="tripleAlarm">Signal Alarme Long de Fin</option>
+                <option value="boxingGong">Gong de Boxe Résonant</option>
               </select>
               <button onclick="testSound('finishSound')" class="px-3 py-2 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
                 <i class="fa-solid fa-play text-xs"></i> Tester
@@ -411,137 +400,106 @@
         const ctx = getAudioContext();
         const now = ctx.currentTime;
 
-        if (type === 'boxingBell') {
-          const playBell = (time) => {
+        if (type === 'boxingGong') {
+          // Gong de boxe lourd et résonant (double frappe)
+          const playGongStrike = (time) => {
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(800, time);
-            osc.frequency.exponentialRampToValueAtTime(400, time + 0.8);
-            gain.gain.setValueAtTime(0.6 * masterVolume, time);
-            gain.gain.exponentialRampToValueAtTime(0.001, time + 0.8);
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(440, time);
+            osc.frequency.exponentialRampToValueAtTime(110, time + 1.2);
+
+            gain.gain.setValueAtTime(0.95 * masterVolume, time);
+            gain.gain.exponentialRampToValueAtTime(0.001, time + 1.4);
+
             osc.connect(gain);
             gain.connect(ctx.destination);
             osc.start(time);
-            osc.stop(time + 0.8);
+            osc.stop(time + 1.4);
           };
-          playBell(now);
-          playBell(now + 0.25);
-        } else if (type === 'whistle') {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(2200, now);
-          osc.frequency.setValueAtTime(2400, now + 0.1);
-          gain.gain.setValueAtTime(0.4 * masterVolume, now);
-          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.45);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(now);
-          osc.stop(now + 0.45);
-        } else if (type === 'beepHigh') {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(1050, now);
-          gain.gain.setValueAtTime(0.5 * masterVolume, now);
-          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(now);
-          osc.stop(now + 0.25);
-        } else if (type === 'beepLow') {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(350, now);
-          gain.gain.setValueAtTime(0.5 * masterVolume, now);
-          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(now);
-          osc.stop(now + 0.3);
-        } else if (type === 'doubleBeep') {
-          const playBeep = (time) => {
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(900, time);
-            gain.gain.setValueAtTime(0.5 * masterVolume, time);
-            gain.gain.exponentialRampToValueAtTime(0.01, time + 0.12);
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.start(time);
-            osc.stop(time + 0.12);
-          };
-          playBeep(now);
-          playBeep(now + 0.15);
-        } else if (type === 'laser') {
+          playGongStrike(now);
+          playGongStrike(now + 0.35);
+
+        } else if (type === 'loudWhistle') {
+          // Sifflet d'arbitre strident et perçant (long)
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(1200, now);
-          osc.frequency.exponentialRampToValueAtTime(200, now + 0.3);
-          gain.gain.setValueAtTime(0.4 * masterVolume, now);
-          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+          osc.frequency.setValueAtTime(2800, now);
+          osc.frequency.setValueAtTime(3200, now + 0.15);
+          osc.frequency.setValueAtTime(2800, now + 0.3);
+          osc.frequency.setValueAtTime(3300, now + 0.5);
+
+          gain.gain.setValueAtTime(0.85 * masterVolume, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+
           osc.connect(gain);
           gain.connect(ctx.destination);
           osc.start(now);
-          osc.stop(now + 0.3);
-        } else if (type === 'chime') {
-          const freqs = [523.25, 659.25, 783.99]; // C5, E5, G5
-          freqs.forEach(freq => {
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(freq, now);
-            gain.gain.setValueAtTime(0.3 * masterVolume, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.start(now);
-            osc.stop(now + 1.2);
-          });
-        } else if (type === 'alarm') {
+          osc.stop(now + 0.8);
+
+        } else if (type === 'tripleAlarm') {
+          // 3 bips stridents d'alarme bien découpés
           for (let i = 0; i < 3; i++) {
+            const time = now + (i * 0.22);
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
-            const time = now + (i * 0.15);
             osc.type = 'square';
-            osc.frequency.setValueAtTime(1000, time);
-            gain.gain.setValueAtTime(0.3 * masterVolume, time);
-            gain.gain.exponentialRampToValueAtTime(0.01, time + 0.1);
+            osc.frequency.setValueAtTime(1400, time);
+
+            gain.gain.setValueAtTime(0.85 * masterVolume, time);
+            gain.gain.exponentialRampToValueAtTime(0.001, time + 0.15);
+
             osc.connect(gain);
             gain.connect(ctx.destination);
             osc.start(time);
-            osc.stop(time + 0.1);
+            osc.stop(time + 0.15);
           }
-        } else if (type === 'gong') {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(180, now);
-          osc.frequency.exponentialRampToValueAtTime(90, now + 2.0);
-          gain.gain.setValueAtTime(0.7 * masterVolume, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 2.0);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(now);
-          osc.stop(now + 2.0);
-        } else if (type === 'fanfare') {
-          const notes = [523.25, 659.25, 783.99, 1046.50];
-          notes.forEach((freq, index) => {
+
+        } else if (type === 'resonantChime') {
+          // Carillon riche et soutenu (durée 1.8s)
+          const freqs = [523.25, 659.25, 783.99, 1046.50]; // Accord majeur Do
+          freqs.forEach((freq, idx) => {
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
-            const startTime = now + (index * 0.12);
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(freq, startTime);
-            gain.gain.setValueAtTime(0.4 * masterVolume, startTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.5);
+            const time = now + (idx * 0.08);
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, time);
+
+            gain.gain.setValueAtTime(0.7 * masterVolume, time);
+            gain.gain.exponentialRampToValueAtTime(0.001, time + 1.8);
+
             osc.connect(gain);
             gain.connect(ctx.destination);
-            osc.start(startTime);
-            osc.stop(startTime + 0.5);
+            osc.start(time);
+            osc.stop(time + 1.8);
+          });
+
+        } else if (type === 'longFanfare') {
+          // Fanfare de victoire martelée et longue (2.2s)
+          const sequence = [
+            { f: 523.25, d: 0.2 },  // C5
+            { f: 659.25, d: 0.2 },  // E5
+            { f: 783.99, d: 0.2 },  // G5
+            { f: 1046.50, d: 0.8 } // C6 (long finale)
+          ];
+          let currentTime = now;
+          sequence.forEach(note => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(note.f, currentTime);
+
+            gain.gain.setValueAtTime(0.9 * masterVolume, currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, currentTime + note.d + 0.3);
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(currentTime);
+            osc.stop(currentTime + note.d + 0.3);
+
+            currentTime += note.d;
           });
         }
       } catch (err) {
