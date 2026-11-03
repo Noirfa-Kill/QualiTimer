@@ -1,718 +1,761 @@
 <!DOCTYPE html>
 <html lang="fr" class="dark h-full bg-slate-950">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>QualiTimer - Entraînement & Musique</title>
- <script src="https://cdn.tailwindcss.com"></script>
- <link rel="preconnect" href="https://fonts.googleapis.com">
- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QualiTimer - Entraînement & Musique</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
- <script>
- tailwind.config = {
- darkMode: 'class',
- theme: {
- extend: {
- fontFamily: {
- sans: ['Inter', 'sans-serif'],
- display: ['Montserrat', 'sans-serif'],
- },
- colors: {
- brand: {
- work: '#10b981',
- rest: '#f97316',
- spotify: '#1db954',
- accent: '#6366f1',
- }
- }
- }
- }
- }
- </script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Montserrat', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              work: '#10b981', // emerald-500
+              rest: '#f97316', // orange-500
+              spotify: '#1db954',
+              accent: '#6366f1', // indigo-500
+            }
+          }
+        }
+      }
+    }
+  </script>
 
- <style>
- .pulse-work {
- box-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
- border-color: #10b981;
- }
- .pulse-rest {
- box-shadow: 0 0 25px rgba(249, 115, 22, 0.4);
- border-color: #f97316;
- }
- ::-webkit-scrollbar { width: 8px; }
- ::-webkit-scrollbar-track { background: #0f172a; }
- ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
- ::-webkit-scrollbar-thumb:hover { background: #475569; }
- </style>
+  <style>
+    /* Gradient animated border for active phase */
+    .pulse-work {
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
+      border-color: #10b981;
+    }
+    .pulse-rest {
+      box-shadow: 0 0 25px rgba(249, 115, 22, 0.4);
+      border-color: #f97316;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+  </style>
 </head>
 <body class="h-full text-slate-100 flex flex-col font-sans selection:bg-emerald-500 selection:text-white">
 
- <header class="w-full bg-slate-900/80 backdrop-blur border-b border-slate-800 sticky top-0 z-50">
- <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
- <div class="flex items-center gap-3">
- <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-emerald-500/20">
- <i class="fa-solid font-bold text-white text-xl fa-stopwatch"></i>
- </div>
- <div>
- <h1 class="font-display font-black text-2xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
- Quali<span class="text-emerald-400">Timer</span>
- </h1>
- </div>
- </div>
- <div class="flex items-center gap-3 text-xs sm:text-sm text-slate-400">
- <span class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800 border border-slate-700">
- <i class="fa-solid fa-music text-emerald-400"></i> Audio Overlay Web API v2
- </span>
- </div>
- </div>
- </header>
-
- <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
- 
- <section class="lg:col-span-7 flex flex-col gap-6">
- <div id="timerCard" class="bg-slate-900 border-2 border-slate-800 rounded-3xl p-6 sm:p-8 transition-all duration-500 relative overflow-hidden shadow-2xl">
- <div class="flex items-center justify-between mb-4">
- <span id="phaseBadge" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider bg-slate-800 text-slate-400 border border-slate-700">
- <span class="w-2.5 h-2.5 rounded-full bg-slate-500" id="phaseDot"></span>
- <span id="phaseText">Prêt à démarrer</span>
- </span>
- <div class="text-slate-400 text-xs sm:text-sm font-medium">
- Série : <span id="currentRoundDisplay" class="text-white font-bold text-base">0</span> / <span id="totalRoundsDisplay" class="text-slate-400">5</span>
- </div>
- </div>
-
- <div class="flex flex-col items-center justify-center my-6 py-4">
- <div id="timeDisplay" class="font-display font-black text-7xl sm:text-8xl md:text-9xl tracking-tight text-white transition-colors duration-300">
- 00:30
- </div>
- <div class="w-full bg-slate-800 rounded-full h-2.5 mt-6 overflow-hidden">
- <div id="progressBar" class="bg-emerald-500 h-2.5 rounded-full transition-all duration-300 w-0"></div>
- </div>
- </div>
-
- <div class="grid grid-cols-2 gap-4 text-center py-3 border-t border-b border-slate-800/80 my-2 text-xs sm:text-sm">
- <div>
- <span class="text-slate-400 block mb-0.5">Temps restant total</span>
- <span id="totalTimeRemaining" class="font-semibold text-slate-200">02:30</span>
- </div>
- <div>
- <span class="text-slate-400 block mb-0.5">Temps écoulé</span>
- <span id="totalTimeElapsed" class="font-semibold text-slate-200">00:00</span>
- </div>
- </div>
-
- <div class="flex items-center justify-center gap-4 mt-6">
- <button id="startPauseBtn" onclick="toggleTimer()" class="flex-1 py-4 px-6 rounded-2xl bg-emerald-500 hover:bg-emerald-400 active:scale-95 text-slate-950 font-display font-black text-lg sm:text-xl shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-3">
- <i class="fa-solid fa-play" id="startPauseIcon"></i>
- <span id="startPauseText">DÉMARRER</span>
- </button>
- 
- <button onclick="resetTimer()" class="py-4 px-5 rounded-2xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 font-bold transition-all border border-slate-700" title="Réinitialiser">
- <i class="fa-solid fa-rotate-left text-lg"></i>
- </button>
- </div>
- </div>
-
- <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
- <h2 class="font-display font-bold text-lg text-white mb-4 flex items-center gap-2">
- <i class="fa-solid fa-sliders text-emerald-400"></i> Réglages de l'entraînement
- </h2>
-
- <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
- <div class="bg-slate-950/60 p-4 rounded-2xl border border-slate-800/80">
- <label class="block text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-2 flex items-center gap-1.5">
- <i class="fa-solid fa-dumbbell"></i> Exercice (sec)
- </label>
- <div class="flex items-center justify-between gap-2">
- <button onclick="adjustValue('workSec', -5)" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold flex items-center justify-center transition">-</button>
- <input type="number" id="workSec" value="30" min="5" max="3600" step="5" onchange="validateInputs()" class="w-full bg-slate-900 text-center text-xl font-bold text-white rounded-xl py-1.5 border border-slate-700 focus:outline-none focus:border-emerald-500">
- <button onclick="adjustValue('workSec', 5)" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold flex items-center justify-center transition">+</button>
- </div>
- </div>
-
- <div class="bg-slate-950/60 p-4 rounded-2xl border border-slate-800/80">
- <label class="block text-xs font-semibold uppercase tracking-wider text-orange-400 mb-2 flex items-center gap-1.5">
- <i class="fa-solid fa-heart-pulse"></i> Repos (sec)
- </label>
- <div class="flex items-center justify-between gap-2">
- <button onclick="adjustValue('restSec', -5)" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold flex items-center justify-center transition">-</button>
- <input type="number" id="restSec" value="15" min="0" max="3600" step="5" onchange="validateInputs()" class="w-full bg-slate-900 text-center text-xl font-bold text-white rounded-xl py-1.5 border border-slate-700 focus:outline-none focus:border-orange-500">
- <button onclick="adjustValue('restSec', 5)" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold flex items-center justify-center transition">+</button>
- </div>
- </div>
-
- <div class="bg-slate-950/60 p-4 rounded-2xl border border-slate-800/80">
- <label class="block text-xs font-semibold uppercase tracking-wider text-indigo-400 mb-2 flex items-center gap-1.5">
- <i class="fa-solid fa-repeat"></i> Séries / Tours
- </label>
- <div class="flex items-center justify-between gap-2">
- <button onclick="adjustValue('totalRounds', -1)" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold flex items-center justify-center transition">-</button>
- <input type="number" id="totalRounds" value="5" min="1" max="99" onchange="validateInputs()" class="w-full bg-slate-900 text-center text-xl font-bold text-white rounded-xl py-1.5 border border-slate-700 focus:outline-none focus:border-indigo-500">
- <button onclick="adjustValue('totalRounds', 1)" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold flex items-center justify-center transition">+</button>
- </div>
- </div>
- </div>
- </div>
- </section>
-
- <section class="lg:col-span-5 flex flex-col gap-6">
- <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col gap-4">
- <div class="flex items-center justify-between">
- <h2 class="font-display font-bold text-lg text-white flex items-center gap-2">
- <i class="fa-brands fa-spotify text-emerald-500 text-xl"></i> Lecteur Spotify
- </h2>
- <span class="text-[10px] text-slate-400 bg-emerald-950/60 text-emerald-400 px-2 py-0.5 rounded-md border border-emerald-800/50">Intégré</span>
- </div>
-
- <div class="flex gap-2">
- <input type="text" id="spotifyInput" placeholder="URL ou ID de Playlist / Titre Spotify" class="flex-1 bg-slate-950 text-slate-200 text-xs sm:text-sm rounded-xl px-3 py-2.5 border border-slate-700 focus:outline-none focus:border-emerald-500">
- <button onclick="loadSpotifyFromInput()" class="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-xl text-xs font-bold transition">
- Charger
- </button>
- </div>
-
- <div>
- <span class="text-xs text-slate-400 block mb-2 font-medium">Playlists recommandées :</span>
- <div class="flex flex-wrap gap-2">
- <button onclick="loadSpotifyEmbed('playlist/37i9dQZF1DX76Wlfdnj7AP')" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition border border-slate-700/60 flex items-center gap-1.5">
- <i class="fa-solid fa-bolt text-amber-400 text-[10px]"></i> Workout Beats
- </button>
- <button onclick="loadSpotifyEmbed('playlist/37i9dQZF1DX70rn8cfaG9M')" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition border border-slate-700/60 flex items-center gap-1.5">
- <i class="fa-solid fa-fire text-red-400 text-[10px]"></i> Power Workout
- </button>
- <button onclick="loadSpotifyEmbed('playlist/37i9dQZF1DXdLENyoT12hM')" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition border border-slate-700/60 flex items-center gap-1.5">
- <i class="fa-solid fa-running text-emerald-400 text-[10px]"></i> Cardio High Energy
- </button>
- </div>
- </div>
-
- <div id="spotifyContainer" class="w-full bg-slate-950 rounded-2xl overflow-hidden min-h-[152px] border border-slate-800 flex items-center justify-center">
- <iframe id="spotifyPlayer" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX76Wlfdnj7AP?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
- </div>
- </div>
-
- <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
- <div class="flex items-center justify-between mb-4">
- <h2 class="font-display font-bold text-lg text-white flex items-center gap-2">
- <i class="fa-solid fa-volume-high text-emerald-400"></i> Signal Audio Superposé
- </h2>
- <span class="text-xs text-slate-400 bg-slate-800 px-2.5 py-1 rounded-full border border-slate-700">Synthèse Haute Puissance</span>
- </div>
-
- <p class="text-xs text-slate-400 mb-4">
- Les signaux audio sont optimisés pour passer au-dessus de la musique Spotify.
- </p>
-
- <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800 mb-4">
- <div class="flex items-center justify-between mb-2">
- <label for="volumeControl" class="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
- <i class="fa-solid fa-volume-low text-emerald-400" id="volumeIcon"></i> Volume des signaux
- </label>
- <span id="volumePercentDisplay" class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">90%</span>
- </div>
- <div class="flex items-center gap-3">
- <button onclick="adjustVolume(-10)" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center justify-center transition border border-slate-700">-</button>
- <input type="range" id="volumeControl" min="0" max="100" value="90" oninput="updateVolumeDisplay()" class="flex-1 h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
- <button onclick="adjustVolume(10)" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center justify-center transition border border-slate-700">+</button>
- </div>
- </div>
-
- <div class="space-y-4">
- <div class="bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800/80">
- <label class="block text-xs font-semibold text-slate-300 mb-1.5">Son Début d'Exercice</label>
- <div class="flex gap-2">
- <select id="workSound" class="flex-1 bg-slate-900 text-slate-200 text-sm rounded-xl px-3 py-2 border border-slate-700 focus:outline-none focus:border-emerald-500">
- <option value="sirenLong">Sirène d'intervalle (3 sec - Puissant)</option>
- <option value="boxingBellTriple">Triple Cloche de boxe (1.5 sec)</option>
- <option value="whistleLong">Sifflet strident long</option>
- <option value="countdownBeep">Décompte 3-2-1 Bips</option>
- <option value="gongDeep">Gong Profond Résonnant</option>
- </select>
- <button onclick="testSound('workSound')" class="px-3 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
- <i class="fa-solid fa-play text-xs"></i> Tester
- </button>
- </div>
- </div>
-
- <div class="bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800/80">
- <label class="block text-xs font-semibold text-slate-300 mb-1.5">Son Début de Repos</label>
- <div class="flex gap-2">
- <select id="restSound" class="flex-1 bg-slate-900 text-slate-200 text-sm rounded-xl px-3 py-2 border border-slate-700 focus:outline-none focus:border-orange-500">
- <option value="whistleLong">Sifflet strident long</option>
- <option value="boxingBellTriple">Triple Cloche de boxe</option>
- <option value="beepDoubleLow">Double Bip Grave</option>
- <option value="gongDeep">Gong Profond Résonnant</option>
- </select>
- <button onclick="testSound('restSound')" class="px-3 py-2 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
- <i class="fa-solid fa-play text-xs"></i> Tester
- </button>
- </div>
- </div>
-
- <div class="bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800/80">
- <label class="block text-xs font-semibold text-slate-300 mb-1.5">Son Fin d'Entraînement</label>
- <div class="flex gap-2">
- <select id="finishSound" class="flex-1 bg-slate-900 text-slate-200 text-sm rounded-xl px-3 py-2 border border-slate-700 focus:outline-none focus:border-indigo-500">
- <option value="fanfareEpic">Fanfare Victoire Épique (Longue)</option>
- <option value="sirenLong">Sirène Finale Longue</option>
- <option value="boxingBellTriple">Triple Cloche de Boxe</option>
- </select>
- <button onclick="testSound('finishSound')" class="px-3 py-2 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
- <i class="fa-solid fa-play text-xs"></i> Tester
- </button>
- </div>
- </div>
- </div>
- </div>
- </section>
- </main>
-
- <script>
- let timerState = 'STOPPED';
- let currentPhase = 'WORK';
- let currentRound = 1;
- let totalRounds = 5;
- let workDuration = 30;
- let restDuration = 15;
- let phaseTimeRemaining = 30;
- let timerInterval = null;
- let totalElapsedSeconds = 0;
- let masterVolume = 0.9;
- let audioCtx = null;
-
- function getAudioContext() {
- if (!audioCtx) {
- const AudioContext = window.AudioContext || window.webkitAudioContext;
- audioCtx = new AudioContext();
- }
- if (audioCtx.state === 'suspended') {
- audioCtx.resume();
- }
- return audioCtx;
- }
-
- function updateVolumeDisplay() {
- const slider = document.getElementById('volumeControl');
- const val = parseInt(slider.value) || 0;
- masterVolume = val / 100;
-
- const percentDisplay = document.getElementById('volumePercentDisplay');
- if (percentDisplay) percentDisplay.innerText = `${val}%`;
-
- const volumeIcon = document.getElementById('volumeIcon');
- if (volumeIcon) {
- if (val === 0) volumeIcon.className = 'fa-solid fa-volume-xmark text-slate-500';
- else if (val < 50) volumeIcon.className = 'fa-solid fa-volume-low text-emerald-400';
- else volumeIcon.className = 'fa-solid fa-volume-high text-emerald-400';
- }
- }
-
- function adjustVolume(delta) {
- const slider = document.getElementById('volumeControl');
- let val = (parseInt(slider.value) || 0) + delta;
- val = Math.max(0, Math.min(100, val));
- slider.value = val;
- updateVolumeDisplay();
- }
-
- function playSoundEffect(type) {
- try {
- if (masterVolume <= 0) return;
- const ctx = getAudioContext();
- const now = ctx.currentTime;
-
- if (type === 'sirenLong') {
- // Sirène stridente à 2 tons alternée (3 secondes)
- const duration = 3.0;
- const osc = ctx.createOscillator();
- const gain = ctx.createGain();
- osc.type = 'sawtooth';
- 
- for (let i = 0; i < 6; i++) {
- const time = now + (i * 0.5);
- osc.frequency.setValueAtTime(850, time);
- osc.frequency.linearRampToValueAtTime(1400, time + 0.25);
- osc.frequency.linearRampToValueAtTime(850, time + 0.5);
- }
-
- gain.gain.setValueAtTime(0.5 * masterVolume, now);
- gain.gain.setValueAtTime(0.5 * masterVolume, now + duration - 0.2);
- gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
-
- osc.connect(gain);
- gain.connect(ctx.destination);
- osc.start(now);
- osc.stop(now + duration);
-
- } else if (type === 'boxingBellTriple') {
- // Triple cloche de boxe
- const playSingleBell = (startTime) => {
- const osc1 = ctx.createOscillator();
- const osc2 = ctx.createOscillator();
- const gain = ctx.createGain();
-
- osc1.type = 'sine';
- osc2.type = 'triangle';
- osc1.frequency.setValueAtTime(950, startTime);
- osc2.frequency.setValueAtTime(1425, startTime);
-
- gain.gain.setValueAtTime(0.6 * masterVolume, startTime);
- gain.gain.exponentialRampToValueAtTime(0.001, startTime + 1.2);
-
- osc1.connect(gain);
- osc2.connect(gain);
- gain.connect(ctx.destination);
- osc1.start(startTime);
- osc2.start(startTime);
- osc1.stop(startTime + 1.2);
- osc2.stop(startTime + 1.2);
- };
-
- playSingleBell(now);
- playSingleBell(now + 0.35);
- playSingleBell(now + 0.70);
-
- } else if (type === 'whistleLong') {
- // Sifflet d'arbitre perçant (1.5 sec)
- const osc = ctx.createOscillator();
- const gain = ctx.createGain();
- osc.type = 'square';
- 
- for (let t = 0; t < 1.5; t += 0.1) {
- osc.frequency.setValueAtTime(2600 + (t % 0.2 === 0 ? 150 : 0), now + t);
- }
-
- gain.gain.setValueAtTime(0.35 * masterVolume, now);
- gain.gain.setValueAtTime(0.35 * masterVolume, now + 1.3);
- gain.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
-
- osc.connect(gain);
- gain.connect(ctx.destination);
- osc.start(now);
- osc.stop(now + 1.5);
-
- } else if (type === 'countdownBeep') {
- // Décompte 3 bips courts + 1 bip long
- for (let i = 0; i < 3; i++) {
- const t = now + (i * 0.4);
- const osc = ctx.createOscillator();
- const gain = ctx.createGain();
- osc.type = 'sine';
- osc.frequency.setValueAtTime(880, t);
- gain.gain.setValueAtTime(0.6 * masterVolume, t);
- gain.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
- osc.connect(gain);
- gain.connect(ctx.destination);
- osc.start(t);
- osc.stop(t + 0.15);
- }
- const tFinal = now + 1.2;
- const oscF = ctx.createOscillator();
- const gainF = ctx.createGain();
- oscF.type = 'sine';
- oscF.frequency.setValueAtTime(1760, tFinal);
- gainF.gain.setValueAtTime(0.7 * masterVolume, tFinal);
- gainF.gain.exponentialRampToValueAtTime(0.001, tFinal + 0.6);
- oscF.connect(gainF);
- gainF.connect(ctx.destination);
- oscF.start(tFinal);
- oscF.stop(tFinal + 0.6);
-
- } else if (type === 'gongDeep') {
- // Gong méditatif résonnant très long (3.5 sec)
- const osc = ctx.createOscillator();
- const gain = ctx.createGain();
- osc.type = 'sine';
- osc.frequency.setValueAtTime(160, now);
- osc.frequency.exponentialRampToValueAtTime(70, now + 3.5);
-
- gain.gain.setValueAtTime(0.8 * masterVolume, now);
- gain.gain.exponentialRampToValueAtTime(0.001, now + 3.5);
-
- osc.connect(gain);
- gain.connect(ctx.destination);
- osc.start(now);
- osc.stop(now + 3.5);
-
- } else if (type === 'beepDoubleLow') {
- // Double bip grave
- const playLowBeep = (t) => {
- const osc = ctx.createOscillator();
- const gain = ctx.createGain();
- osc.type = 'sawtooth';
- osc.frequency.setValueAtTime(400, t);
- gain.gain.setValueAtTime(0.5 * masterVolume, t);
- gain.gain.exponentialRampToValueAtTime(0.01, t + 0.25);
- osc.connect(gain);
- gain.connect(ctx.destination);
- osc.start(t);
- osc.stop(t + 0.25);
- };
- playLowBeep(now);
- playLowBeep(now + 0.3);
-
- } else if (type === 'fanfareEpic') {
- // Accord de victoire épique
- const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
- notes.forEach((freq, index) => {
- const osc = ctx.createOscillator();
- const gain = ctx.createGain();
- const startTime = now + (index * 0.15);
- 
- osc.type = 'triangle';
- osc.frequency.setValueAtTime(freq, startTime);
-
- gain.gain.setValueAtTime(0.4 * masterVolume, startTime);
- gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.8);
-
- osc.connect(gain);
- gain.connect(ctx.destination);
- osc.start(startTime);
- osc.stop(startTime + 0.8);
- });
- }
- } catch (err) {
- console.error("Erreur lecture son:", err);
- }
- }
-
- function testSound(selectId) {
- const soundType = document.getElementById(selectId).value;
- playSoundEffect(soundType);
- }
-
- function adjustValue(inputId, delta) {
- const input = document.getElementById(inputId);
- let val = parseInt(input.value) || 0;
- val += delta;
- const min = parseInt(input.min) || 0;
- const max = parseInt(input.max) || 9999;
- if (val < min) val = min;
- if (val > max) val = max;
- input.value = val;
- validateInputs();
- }
-
- function validateInputs() {
- workDuration = Math.max(5, parseInt(document.getElementById('workSec').value) || 30);
- restDuration = Math.max(0, parseInt(document.getElementById('restSec').value) || 15);
- totalRounds = Math.max(1, parseInt(document.getElementById('totalRounds').value) || 5);
-
- document.getElementById('totalRoundsDisplay').innerText = totalRounds;
-
- if (timerState === 'STOPPED') {
- currentRound = 1;
- currentPhase = 'WORK';
- phaseTimeRemaining = workDuration;
- totalElapsedSeconds = 0;
- updateDisplay();
- } else {
- updateOverallTimeDisplay();
- }
- }
-
- function toggleTimer() {
- getAudioContext();
- if (timerState === 'RUNNING') pauseTimer();
- else startTimer();
- }
-
- function startTimer() {
- timerState = 'RUNNING';
- const btn = document.getElementById('startPauseBtn');
- const icon = document.getElementById('startPauseIcon');
- const text = document.getElementById('startPauseText');
-
- btn.classList.remove('bg-emerald-500', 'hover:bg-emerald-400');
- btn.classList.add('bg-amber-500', 'hover:bg-amber-400');
- icon.className = 'fa-solid fa-pause';
- text.innerText = 'PAUSE';
-
- if (!timerInterval) {
- if (phaseTimeRemaining === workDuration && currentRound === 1 && currentPhase === 'WORK') {
- const soundType = document.getElementById('workSound').value;
- playSoundEffect(soundType);
- }
- timerInterval = setInterval(tick, 1000);
- }
- }
-
- function pauseTimer() {
- timerState = 'PAUSED';
- clearInterval(timerInterval);
- timerInterval = null;
-
- const btn = document.getElementById('startPauseBtn');
- const icon = document.getElementById('startPauseIcon');
- const text = document.getElementById('startPauseText');
-
- btn.classList.remove('bg-amber-500', 'hover:bg-amber-400');
- btn.classList.add('bg-emerald-500', 'hover:bg-emerald-400');
- icon.className = 'fa-solid fa-play';
- text.innerText = 'REPRENDRE';
- }
-
- function resetTimer() {
- clearInterval(timerInterval);
- timerInterval = null;
- timerState = 'STOPPED';
- currentPhase = 'WORK';
- currentRound = 1;
- totalElapsedSeconds = 0;
-
- validateInputs();
-
- const btn = document.getElementById('startPauseBtn');
- const icon = document.getElementById('startPauseIcon');
- const text = document.getElementById('startPauseText');
-
- btn.classList.remove('bg-amber-500', 'hover:bg-amber-400');
- btn.classList.add('bg-emerald-500', 'hover:bg-emerald-400');
- icon.className = 'fa-solid fa-play';
- text.innerText = 'DÉMARRER';
-
- updateDisplay();
- }
-
- function tick() {
- if (timerState !== 'RUNNING') return;
-
- totalElapsedSeconds++;
- phaseTimeRemaining--;
-
- if (phaseTimeRemaining <= 0) {
- if (currentPhase === 'WORK') {
- if (restDuration > 0 && currentRound <= totalRounds) {
- currentPhase = 'REST';
- phaseTimeRemaining = restDuration;
- const soundType = document.getElementById('restSound').value;
- playSoundEffect(soundType);
- } else {
- advanceRoundOrFinish();
- }
- } else if (currentPhase === 'REST') {
- advanceRoundOrFinish();
- }
- }
-
- updateDisplay();
- }
-
- function advanceRoundOrFinish() {
- if (currentRound < totalRounds) {
- currentRound++;
- currentPhase = 'WORK';
- phaseTimeRemaining = workDuration;
- const soundType = document.getElementById('workSound').value;
- playSoundEffect(soundType);
- } else {
- currentPhase = 'FINISHED';
- phaseTimeRemaining = 0;
- timerState = 'STOPPED';
- clearInterval(timerInterval);
- timerInterval = null;
-
- const soundType = document.getElementById('finishSound').value;
- playSoundEffect(soundType);
-
- const btn = document.getElementById('startPauseBtn');
- const icon = document.getElementById('startPauseIcon');
- const text = document.getElementById('startPauseText');
- btn.classList.remove('bg-amber-500', 'hover:bg-amber-400');
- btn.classList.add('bg-emerald-500', 'hover:bg-emerald-400');
- icon.className = 'fa-solid fa-rotate-right';
- text.innerText = 'RECOMMENCER';
- }
- }
-
- function formatTime(seconds) {
- const secs = Math.max(0, Math.floor(seconds));
- const m = Math.floor(secs / 60);
- const s = secs % 60;
- return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
- }
-
- function updateDisplay() {
- const timeDisplay = document.getElementById('timeDisplay');
- const phaseBadge = document.getElementById('phaseBadge');
- const phaseDot = document.getElementById('phaseDot');
- const phaseText = document.getElementById('phaseText');
- const progressBar = document.getElementById('progressBar');
- const timerCard = document.getElementById('timerCard');
-
- timeDisplay.innerText = formatTime(phaseTimeRemaining);
- document.getElementById('currentRoundDisplay').innerText = currentRound;
-
- if (currentPhase === 'WORK') {
- phaseBadge.className = "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/30";
- phaseDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse";
- phaseText.innerText = "EXERCICE - Donnez tout !";
- timeDisplay.className = "font-display font-black text-7xl sm:text-8xl md:text-9xl tracking-tight text-emerald-400 transition-colors duration-300";
- 
- timerCard.classList.remove('pulse-rest');
- timerCard.classList.add('pulse-work');
-
- const pct = Math.min(100, Math.max(0, ((workDuration - phaseTimeRemaining) / workDuration) * 100));
- progressBar.style.width = `${pct}%`;
- progressBar.className = "bg-emerald-500 h-2.5 rounded-full transition-all duration-300";
-
- } else if (currentPhase === 'REST') {
- phaseBadge.className = "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider bg-orange-500/10 text-orange-400 border border-orange-500/30";
- phaseDot.className = "w-2.5 h-2.5 rounded-full bg-orange-400 animate-pulse";
- phaseText.innerText = "REPOS - Respirez";
- timeDisplay.className = "font-display font-black text-7xl sm:text-8xl md:text-9xl tracking-tight text-orange-400 transition-colors duration-300";
-
- timerCard.classList.remove('pulse-work');
- timerCard.classList.add('pulse-rest');
-
- const pct = Math.min(100, Math.max(0, ((restDuration - phaseTimeRemaining) / restDuration) * 100));
- progressBar.style.width = `${pct}%`;
- progressBar.className = "bg-orange-500 h-2.5 rounded-full transition-all duration-300";
-
- } else if (currentPhase === 'FINISHED') {
- phaseBadge.className = "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/40";
- phaseDot.className = "w-2.5 h-2.5 rounded-full bg-indigo-400";
- phaseText.innerText = "TERMINÉ - Bravo !";
- timeDisplay.className = "font-display font-black text-7xl sm:text-8xl md:text-9xl tracking-tight text-indigo-400 transition-colors duration-300";
- timeDisplay.innerText = "00:00";
-
- timerCard.classList.remove('pulse-work', 'pulse-rest');
- progressBar.style.width = "100%";
- progressBar.className = "bg-indigo-500 h-2.5 rounded-full transition-all duration-300";
- }
-
- updateOverallTimeDisplay();
- }
-
- function updateOverallTimeDisplay() {
- const totalWorkoutSeconds = (workDuration + restDuration) * totalRounds - restDuration;
- const totalRemaining = Math.max(0, totalWorkoutSeconds - totalElapsedSeconds);
-
- document.getElementById('totalTimeRemaining').innerText = formatTime(totalRemaining);
- document.getElementById('totalTimeElapsed').innerText = formatTime(totalElapsedSeconds);
- }
-
- function loadSpotifyEmbed(uriOrPath) {
- let embedPath = uriOrPath;
- if (uriOrPath.includes('spotify.com/')) {
- const urlParts = uriOrPath.split('spotify.com/')[1].split('?')[0];
- embedPath = urlParts;
- }
- const iframe = document.getElementById('spotifyPlayer');
- iframe.src = `https://open.spotify.com/embed/${embedPath}?utm_source=generator&theme=0`;
- }
-
- function loadSpotifyFromInput() {
- const input = document.getElementById('spotifyInput').value.trim();
- if (input) loadSpotifyEmbed(input);
- }
-
- window.onload = function() {
- validateInputs();
- updateVolumeDisplay();
- };
- </script>
+  <!-- TOP HEADER -->
+  <header class="w-full bg-slate-900/80 backdrop-blur border-b border-slate-800 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+          <i class="fa-solid font-bold text-white text-xl fa-stopwatch"></i>
+        </div>
+        <div>
+          <h1 class="font-display font-black text-2xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+            Quali<span class="text-emerald-400">Timer</span>
+          </h1>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 text-xs sm:text-sm text-slate-400">
+        <span class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800 border border-slate-700">
+          <i class="fa-solid fa-music text-emerald-400"></i> Audio Overlay Web API
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    
+    <!-- LEFT / TIMER DASHBOARD (8 Cols on LG) -->
+    <section class="lg:col-span-7 flex flex-col gap-6">
+
+      <!-- DISPLAY DISPLAY CARD -->
+      <div id="timerCard" class="bg-slate-900 border-2 border-slate-800 rounded-3xl p-6 sm:p-8 transition-all duration-500 relative overflow-hidden shadow-2xl">
+        
+        <!-- Status Indicator Bar -->
+        <div class="flex items-center justify-between mb-4">
+          <span id="phaseBadge" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider bg-slate-800 text-slate-400 border border-slate-700">
+            <span class="w-2.5 h-2.5 rounded-full bg-slate-500" id="phaseDot"></span>
+            <span id="phaseText">Prêt à démarrer</span>
+          </span>
+          <div class="text-slate-400 text-xs sm:text-sm font-medium">
+            Série : <span id="currentRoundDisplay" class="text-white font-bold text-base">0</span> / <span id="totalRoundsDisplay" class="text-slate-400">5</span>
+          </div>
+        </div>
+
+        <!-- BIG COUNTDOWN DISPLAY -->
+        <div class="flex flex-col items-center justify-center my-6 py-4">
+          <div id="timeDisplay" class="font-display font-black text-7xl sm:text-8xl md:text-9xl tracking-tight text-white transition-colors duration-300">
+            00:30
+          </div>
+          <div class="w-full bg-slate-800 rounded-full h-2.5 mt-6 overflow-hidden">
+            <div id="progressBar" class="bg-emerald-500 h-2.5 rounded-full transition-all duration-300 w-0"></div>
+          </div>
+        </div>
+
+        <!-- TOTAL TIME REMAINING & ELAPSED -->
+        <div class="grid grid-cols-2 gap-4 text-center py-3 border-t border-b border-slate-800/80 my-2 text-xs sm:text-sm">
+          <div>
+            <span class="text-slate-400 block mb-0.5">Temps restant total</span>
+            <span id="totalTimeRemaining" class="font-semibold text-slate-200">02:30</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block mb-0.5">Temps écoulé</span>
+            <span id="totalTimeElapsed" class="font-semibold text-slate-200">00:00</span>
+          </div>
+        </div>
+
+        <!-- CONTROL BUTTONS -->
+        <div class="flex items-center justify-center gap-4 mt-6">
+          <button id="startPauseBtn" onclick="toggleTimer()" class="flex-1 py-4 px-6 rounded-2xl bg-emerald-500 hover:bg-emerald-400 active:scale-95 text-slate-950 font-display font-black text-lg sm:text-xl shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-3">
+            <i class="fa-solid fa-play" id="startPauseIcon"></i>
+            <span id="startPauseText">DÉMARRER</span>
+          </button>
+          
+          <button onclick="resetTimer()" class="py-4 px-5 rounded-2xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 font-bold transition-all border border-slate-700" title="Réinitialiser">
+            <i class="fa-solid fa-rotate-left text-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- TIMER CONFIGURATION PANEL -->
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
+        <h2 class="font-display font-bold text-lg text-white mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-sliders text-emerald-400"></i> Réglages de l'entraînement
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <!-- WORK DURATION -->
+          <div class="bg-slate-950/60 p-4 rounded-2xl border border-slate-800/80">
+            <label class="block text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-2 flex items-center gap-1.5">
+              <i class="fa-solid fa-dumbbell"></i> Exercice (sec)
+            </label>
+            <div class="flex items-center justify-between gap-2">
+              <button onclick="adjustValue('workSec', -5)" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold flex items-center justify-center transition">-</button>
+              <input type="number" id="workSec" value="30" min="5" max="3600" step="5" onchange="validateInputs()" class="w-full bg-slate-900 text-center text-xl font-bold text-white rounded-xl py-1.5 border border-slate-700 focus:outline-none focus:border-emerald-500">
+              <button onclick="adjustValue('workSec', 5)" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold flex items-center justify-center transition">+</button>
+            </div>
+          </div>
+
+          <!-- REST DURATION -->
+          <div class="bg-slate-950/60 p-4 rounded-2xl border border-slate-800/80">
+            <label class="block text-xs font-semibold uppercase tracking-wider text-orange-400 mb-2 flex items-center gap-1.5">
+              <i class="fa-solid fa-heart-pulse"></i> Repos (sec)
+            </label>
+            <div class="flex items-center justify-between gap-2">
+              <button onclick="adjustValue('restSec', -5)" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold flex items-center justify-center transition">-</button>
+              <input type="number" id="restSec" value="15" min="0" max="3600" step="5" onchange="validateInputs()" class="w-full bg-slate-900 text-center text-xl font-bold text-white rounded-xl py-1.5 border border-slate-700 focus:outline-none focus:border-orange-500">
+              <button onclick="adjustValue('restSec', 5)" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold flex items-center justify-center transition">+</button>
+            </div>
+          </div>
+
+          <!-- SETS / ROUNDS -->
+          <div class="bg-slate-950/60 p-4 rounded-2xl border border-slate-800/80">
+            <label class="block text-xs font-semibold uppercase tracking-wider text-indigo-400 mb-2 flex items-center gap-1.5">
+              <i class="fa-solid fa-repeat"></i> Séries / Tours
+            </label>
+            <div class="flex items-center justify-between gap-2">
+              <button onclick="adjustValue('totalRounds', -1)" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold flex items-center justify-center transition">-</button>
+              <input type="number" id="totalRounds" value="5" min="1" max="99" onchange="validateInputs()" class="w-full bg-slate-900 text-center text-xl font-bold text-white rounded-xl py-1.5 border border-slate-700 focus:outline-none focus:border-indigo-500">
+              <button onclick="adjustValue('totalRounds', 1)" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold flex items-center justify-center transition">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT / AUDIO & SPOTIFY SECTION (5 Cols on LG) -->
+    <section class="lg:col-span-5 flex flex-col gap-6">
+
+      <!-- SPOTIFY INTEGRATION CARD -->
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col gap-4">
+        <div class="flex items-center justify-between">
+          <h2 class="font-display font-bold text-lg text-white flex items-center gap-2">
+            <i class="fa-brands fa-spotify text-emerald-500 text-xl"></i> Lecteur Spotify
+          </h2>
+          <span class="text-[10px] text-slate-400 bg-emerald-950/60 text-emerald-400 px-2 py-0.5 rounded-md border border-emerald-800/50">Intégré</span>
+        </div>
+
+        <!-- SPOTIFY URL / ID INPUT -->
+        <div class="flex gap-2">
+          <input type="text" id="spotifyInput" placeholder="URL ou ID de Playlist / Titre Spotify" class="flex-1 bg-slate-950 text-slate-200 text-xs sm:text-sm rounded-xl px-3 py-2.5 border border-slate-700 focus:outline-none focus:border-emerald-500">
+          <button onclick="loadSpotifyFromInput()" class="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-xl text-xs font-bold transition">
+            Charger
+          </button>
+        </div>
+
+        <!-- QUICK PLAYLIST PRESETS -->
+        <div>
+          <span class="text-xs text-slate-400 block mb-2 font-medium">Playlists recommandées :</span>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="loadSpotifyEmbed('playlist/37i9dQZF1DX76Wlfdnj7AP')" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition border border-slate-700/60 flex items-center gap-1.5">
+              <i class="fa-solid fa-bolt text-amber-400 text-[10px]"></i> Workout Beats
+            </button>
+            <button onclick="loadSpotifyEmbed('playlist/37i9dQZF1DX70rn8cfaG9M')" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition border border-slate-700/60 flex items-center gap-1.5">
+              <i class="fa-solid fa-fire text-red-400 text-[10px]"></i> Power Workout
+            </button>
+            <button onclick="loadSpotifyEmbed('playlist/37i9dQZF1DXdLENyoT12hM')" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition border border-slate-700/60 flex items-center gap-1.5">
+              <i class="fa-solid fa-running text-emerald-400 text-[10px]"></i> Cardio High Energy
+            </button>
+          </div>
+        </div>
+
+        <!-- IFRAME CONTAINER -->
+        <div id="spotifyContainer" class="w-full bg-slate-950 rounded-2xl overflow-hidden min-h-[152px] border border-slate-800 flex items-center justify-center">
+          <iframe id="spotifyPlayer" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX76Wlfdnj7AP?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <!-- AUDIO ALERTS CONFIGURATION CARD -->
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="font-display font-bold text-lg text-white flex items-center gap-2">
+            <i class="fa-solid fa-volume-high text-emerald-400"></i> Signal Audio Superposé
+          </h2>
+          <span class="text-xs text-slate-400 bg-slate-800 px-2.5 py-1 rounded-full border border-slate-700">Synthèse WebAudio</span>
+        </div>
+
+        <p class="text-xs text-slate-400 mb-4">
+          Ces sons se produisent en arrière-plan et se superposent à la musique Spotify sans l'interrompre.
+        </p>
+
+        <!-- VOLUME CONTROL SLIDER -->
+        <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800 mb-4">
+          <div class="flex items-center justify-between mb-2">
+            <label for="volumeControl" class="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+              <i class="fa-solid fa-volume-low text-emerald-400" id="volumeIcon"></i> Volume des signaux
+            </label>
+            <span id="volumePercentDisplay" class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">80%</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <button onclick="adjustVolume(-10)" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center justify-center transition border border-slate-700">-</button>
+            <input type="range" id="volumeControl" min="0" max="100" value="80" oninput="updateVolumeDisplay()" class="flex-1 h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+            <button onclick="adjustVolume(10)" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center justify-center transition border border-slate-700">+</button>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <!-- WORK START SOUND -->
+          <div class="bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800/80">
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Son Début d'Exercice</label>
+            <div class="flex gap-2">
+              <select id="workSound" class="flex-1 bg-slate-900 text-slate-200 text-sm rounded-xl px-3 py-2 border border-slate-700 focus:outline-none focus:border-emerald-500">
+                <option value="boxingBell">Cloche de boxe (Double)</option>
+                <option value="whistle">Sifflet d'arbitre</option>
+                <option value="beepHigh">Bip Aigu (High Beep)</option>
+                <option value="gong">Gong Méditatif</option>
+              </select>
+              <button onclick="testSound('workSound')" class="px-3 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-play text-xs"></i> Tester
+              </button>
+            </div>
+          </div>
+
+          <!-- REST START SOUND -->
+          <div class="bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800/80">
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Son Début de Repos</label>
+            <div class="flex gap-2">
+              <select id="restSound" class="flex-1 bg-slate-900 text-slate-200 text-sm rounded-xl px-3 py-2 border border-slate-700 focus:outline-none focus:border-orange-500">
+                <option value="whistle">Sifflet d'arbitre</option>
+                <option value="boxingBell">Cloche de boxe</option>
+                <option value="beepLow">Bip Grave (Low Beep)</option>
+                <option value="gong">Gong Méditatif</option>
+              </select>
+              <button onclick="testSound('restSound')" class="px-3 py-2 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-play text-xs"></i> Tester
+              </button>
+            </div>
+          </div>
+
+          <!-- FINISH SOUND -->
+          <div class="bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800/80">
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Son Fin d'Entraînement</label>
+            <div class="flex gap-2">
+              <select id="finishSound" class="flex-1 bg-slate-900 text-slate-200 text-sm rounded-xl px-3 py-2 border border-slate-700 focus:outline-none focus:border-indigo-500">
+                <option value="fanfare">Fanfare Victoire (Tada!)</option>
+                <option value="gong">Gong Méditatif Final</option>
+                <option value="boxingBell">Triple Cloche de Boxe</option>
+              </select>
+              <button onclick="testSound('finishSound')" class="px-3 py-2 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-play text-xs"></i> Tester
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // State variables
+    let timerState = 'STOPPED'; // 'STOPPED', 'RUNNING', 'PAUSED'
+    let currentPhase = 'WORK';   // 'WORK', 'REST', 'FINISHED'
+    let currentRound = 1;
+    let totalRounds = 5;
+    
+    let workDuration = 30;
+    let restDuration = 15;
+    
+    let phaseTimeRemaining = 30;
+    let timerInterval = null;
+    
+    let totalElapsedSeconds = 0;
+
+    // Master volume multiplier (0.0 to 1.0)
+    let masterVolume = 0.8;
+
+    // Web Audio Context for synthesized alerts
+    let audioCtx = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    // Volume adjustment helper functions
+    function updateVolumeDisplay() {
+      const slider = document.getElementById('volumeControl');
+      const val = parseInt(slider.value) || 0;
+      masterVolume = val / 100;
+
+      const percentDisplay = document.getElementById('volumePercentDisplay');
+      if (percentDisplay) {
+        percentDisplay.innerText = `${val}%`;
+      }
+
+      const volumeIcon = document.getElementById('volumeIcon');
+      if (volumeIcon) {
+        if (val === 0) {
+          volumeIcon.className = 'fa-solid fa-volume-xmark text-slate-500';
+        } else if (val < 50) {
+          volumeIcon.className = 'fa-solid fa-volume-low text-emerald-400';
+        } else {
+          volumeIcon.className = 'fa-solid fa-volume-high text-emerald-400';
+        }
+      }
+    }
+
+    function adjustVolume(delta) {
+      const slider = document.getElementById('volumeControl');
+      let val = (parseInt(slider.value) || 0) + delta;
+      val = Math.max(0, Math.min(100, val));
+      slider.value = val;
+      updateVolumeDisplay();
+    }
+
+    // --- SYNTHESIZED AUDIO GENERATOR (NO EXTERNAL MEDIA REQUIRED) ---
+    function playSoundEffect(type) {
+      try {
+        if (masterVolume <= 0) return; // Muted
+
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
+
+        if (type === 'boxingBell') {
+          // Double Boxing Bell sound
+          const playBell = (time) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(800, time);
+            osc.frequency.exponentialRampToValueAtTime(400, time + 0.8);
+
+            gain.gain.setValueAtTime(0.6 * masterVolume, time);
+            gain.gain.exponentialRampToValueAtTime(0.001, time + 0.8);
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(time);
+            osc.stop(time + 0.8);
+          };
+          playBell(now);
+          playBell(now + 0.25);
+
+        } else if (type === 'whistle') {
+          // Referee whistle (modulated high pitch)
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(2200, now);
+          osc.frequency.setValueAtTime(2400, now + 0.1);
+          osc.frequency.setValueAtTime(2200, now + 0.2);
+          osc.frequency.setValueAtTime(2500, now + 0.3);
+
+          gain.gain.setValueAtTime(0.4 * masterVolume, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.45);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.45);
+
+        } else if (type === 'beepHigh') {
+          // Sharp High Beep
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(1050, now);
+
+          gain.gain.setValueAtTime(0.5 * masterVolume, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.25);
+
+        } else if (type === 'beepLow') {
+          // Low Pitch Beep
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(440, now);
+
+          gain.gain.setValueAtTime(0.5 * masterVolume, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.3);
+
+        } else if (type === 'gong') {
+          // Deep Gong sound
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(180, now);
+          osc.frequency.exponentialRampToValueAtTime(90, now + 2.0);
+
+          gain.gain.setValueAtTime(0.7 * masterVolume, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 2.0);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 2.0);
+
+        } else if (type === 'fanfare') {
+          // Victory Fanfare chords
+          const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+          notes.forEach((freq, index) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            const startTime = now + (index * 0.12);
+            
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, startTime);
+
+            gain.gain.setValueAtTime(0.4 * masterVolume, startTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.5);
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(startTime);
+            osc.stop(startTime + 0.5);
+          });
+        }
+      } catch (err) {
+        console.error("Erreur lecture son:", err);
+      }
+    }
+
+    // Function to test audio sound from UI
+    function testSound(selectId) {
+      const soundType = document.getElementById(selectId).value;
+      playSoundEffect(soundType);
+    }
+
+    // Adjust numeric inputs with buttons
+    function adjustValue(inputId, delta) {
+      const input = document.getElementById(inputId);
+      let val = parseInt(input.value) || 0;
+      val += delta;
+      const min = parseInt(input.min) || 0;
+      const max = parseInt(input.max) || 9999;
+      if (val < min) val = min;
+      if (val > max) val = max;
+      input.value = val;
+      validateInputs();
+    }
+
+    // Validate inputs & update UI
+    function validateInputs() {
+      workDuration = Math.max(5, parseInt(document.getElementById('workSec').value) || 30);
+      restDuration = Math.max(0, parseInt(document.getElementById('restSec').value) || 15);
+      totalRounds = Math.max(1, parseInt(document.getElementById('totalRounds').value) || 5);
+
+      document.getElementById('totalRoundsDisplay').innerText = totalRounds;
+
+      if (timerState === 'STOPPED') {
+        currentRound = 1;
+        currentPhase = 'WORK';
+        phaseTimeRemaining = workDuration;
+        totalElapsedSeconds = 0;
+        updateDisplay();
+      } else {
+        updateOverallTimeDisplay();
+      }
+    }
+
+    // Toggle Start / Pause
+    function toggleTimer() {
+      getAudioContext(); // Initialize audio context on user interaction
+      
+      if (timerState === 'RUNNING') {
+        pauseTimer();
+      } else {
+        startTimer();
+      }
+    }
+
+    function startTimer() {
+      timerState = 'RUNNING';
+      
+      // Update Button
+      const btn = document.getElementById('startPauseBtn');
+      const icon = document.getElementById('startPauseIcon');
+      const text = document.getElementById('startPauseText');
+
+      btn.classList.remove('bg-emerald-500', 'hover:bg-emerald-400');
+      btn.classList.add('bg-amber-500', 'hover:bg-amber-400');
+      icon.className = 'fa-solid fa-pause';
+      text.innerText = 'PAUSE';
+
+      if (!timerInterval) {
+        // Play start sound if beginning round 1
+        if (phaseTimeRemaining === workDuration && currentRound === 1 && currentPhase === 'WORK') {
+          const soundType = document.getElementById('workSound').value;
+          playSoundEffect(soundType);
+        }
+
+        timerInterval = setInterval(tick, 1000);
+      }
+    }
+
+    function pauseTimer() {
+      timerState = 'PAUSED';
+      clearInterval(timerInterval);
+      timerInterval = null;
+
+      const btn = document.getElementById('startPauseBtn');
+      const icon = document.getElementById('startPauseIcon');
+      const text = document.getElementById('startPauseText');
+
+      btn.classList.remove('bg-amber-500', 'hover:bg-amber-400');
+      btn.classList.add('bg-emerald-500', 'hover:bg-emerald-400');
+      icon.className = 'fa-solid fa-play';
+      text.innerText = 'REPRENDRE';
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      timerState = 'STOPPED';
+      currentPhase = 'WORK';
+      currentRound = 1;
+      totalElapsedSeconds = 0;
+
+      validateInputs();
+
+      const btn = document.getElementById('startPauseBtn');
+      const icon = document.getElementById('startPauseIcon');
+      const text = document.getElementById('startPauseText');
+
+      btn.classList.remove('bg-amber-500', 'hover:bg-amber-400');
+      btn.classList.add('bg-emerald-500', 'hover:bg-emerald-400');
+      icon.className = 'fa-solid fa-play';
+      text.innerText = 'DÉMARRER';
+
+      updateDisplay();
+    }
+
+    // Main Timer Tick Logic (Every second)
+    function tick() {
+      if (timerState !== 'RUNNING') return;
+
+      totalElapsedSeconds++;
+      phaseTimeRemaining--;
+
+      // Check for phase transitions
+      if (phaseTimeRemaining <= 0) {
+        if (currentPhase === 'WORK') {
+          if (restDuration > 0 && currentRound <= totalRounds) {
+            // Switch to Rest
+            currentPhase = 'REST';
+            phaseTimeRemaining = restDuration;
+            const soundType = document.getElementById('restSound').value;
+            playSoundEffect(soundType);
+          } else {
+            // No rest or end of workout
+            advanceRoundOrFinish();
+          }
+        } else if (currentPhase === 'REST') {
+          advanceRoundOrFinish();
+        }
+      }
+
+      updateDisplay();
+    }
+
+    function advanceRoundOrFinish() {
+      if (currentRound < totalRounds) {
+        currentRound++;
+        currentPhase = 'WORK';
+        phaseTimeRemaining = workDuration;
+        const soundType = document.getElementById('workSound').value;
+        playSoundEffect(soundType);
+      } else {
+        // Workout Finished!
+        currentPhase = 'FINISHED';
+        phaseTimeRemaining = 0;
+        timerState = 'STOPPED';
+        clearInterval(timerInterval);
+        timerInterval = null;
+
+        const soundType = document.getElementById('finishSound').value;
+        playSoundEffect(soundType);
+
+        const btn = document.getElementById('startPauseBtn');
+        const icon = document.getElementById('startPauseIcon');
+        const text = document.getElementById('startPauseText');
+        btn.classList.remove('bg-amber-500', 'hover:bg-amber-400');
+        btn.classList.add('bg-emerald-500', 'hover:bg-emerald-400');
+        icon.className = 'fa-solid fa-rotate-right';
+        text.innerText = 'RECOMMENCER';
+      }
+    }
+
+    // Format seconds into MM:SS string
+    function formatTime(seconds) {
+      const secs = Math.max(0, Math.floor(seconds));
+      const m = Math.floor(secs / 60);
+      const s = secs % 60;
+      return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
+    // UI Updates
+    function updateDisplay() {
+      const timeDisplay = document.getElementById('timeDisplay');
+      const phaseBadge = document.getElementById('phaseBadge');
+      const phaseDot = document.getElementById('phaseDot');
+      const phaseText = document.getElementById('phaseText');
+      const progressBar = document.getElementById('progressBar');
+      const timerCard = document.getElementById('timerCard');
+
+      timeDisplay.innerText = formatTime(phaseTimeRemaining);
+      document.getElementById('currentRoundDisplay').innerText = currentRound;
+
+      // Phase Styling & Badges
+      if (currentPhase === 'WORK') {
+        phaseBadge.className = "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/30";
+        phaseDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse";
+        phaseText.innerText = "EXERCICE - Donnez tout !";
+        timeDisplay.className = "font-display font-black text-7xl sm:text-8xl md:text-9xl tracking-tight text-emerald-400 transition-colors duration-300";
+        
+        timerCard.classList.remove('pulse-rest');
+        timerCard.classList.add('pulse-work');
+
+        const totalPhaseDuration = workDuration;
+        const pct = Math.min(100, Math.max(0, ((totalPhaseDuration - phaseTimeRemaining) / totalPhaseDuration) * 100));
+        progressBar.style.width = `${pct}%`;
+        progressBar.className = "bg-emerald-500 h-2.5 rounded-full transition-all duration-300";
+
+      } else if (currentPhase === 'REST') {
+        phaseBadge.className = "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider bg-orange-500/10 text-orange-400 border border-orange-500/30";
+        phaseDot.className = "w-2.5 h-2.5 rounded-full bg-orange-400 animate-pulse";
+        phaseText.innerText = "REPOS - Respirez";
+        timeDisplay.className = "font-display font-black text-7xl sm:text-8xl md:text-9xl tracking-tight text-orange-400 transition-colors duration-300";
+
+        timerCard.classList.remove('pulse-work');
+        timerCard.classList.add('pulse-rest');
+
+        const totalPhaseDuration = restDuration;
+        const pct = Math.min(100, Math.max(0, ((totalPhaseDuration - phaseTimeRemaining) / totalPhaseDuration) * 100));
+        progressBar.style.width = `${pct}%`;
+        progressBar.className = "bg-orange-500 h-2.5 rounded-full transition-all duration-300";
+
+      } else if (currentPhase === 'FINISHED') {
+        phaseBadge.className = "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/40";
+        phaseDot.className = "w-2.5 h-2.5 rounded-full bg-indigo-400";
+        phaseText.innerText = "TERMINÉ - Bravo !";
+        timeDisplay.className = "font-display font-black text-7xl sm:text-8xl md:text-9xl tracking-tight text-indigo-400 transition-colors duration-300";
+        timeDisplay.innerText = "00:00";
+
+        timerCard.classList.remove('pulse-work', 'pulse-rest');
+        progressBar.style.width = "100%";
+        progressBar.className = "bg-indigo-500 h-2.5 rounded-full transition-all duration-300";
+      }
+
+      updateOverallTimeDisplay();
+    }
+
+    function updateOverallTimeDisplay() {
+      // Calculate total workout duration
+      const totalWorkoutSeconds = (workDuration + restDuration) * totalRounds - restDuration;
+      const totalRemaining = Math.max(0, totalWorkoutSeconds - totalElapsedSeconds);
+
+      document.getElementById('totalTimeRemaining').innerText = formatTime(totalRemaining);
+      document.getElementById('totalTimeElapsed').innerText = formatTime(totalElapsedSeconds);
+    }
+
+    // --- SPOTIFY INTEGRATION LOGIC ---
+    function loadSpotifyEmbed(uriOrPath) {
+      let embedPath = uriOrPath;
+      
+      // If user pasted full Spotify URL, extract path
+      if (uriOrPath.includes('spotify.com/')) {
+        const urlParts = uriOrPath.split('spotify.com/')[1].split('?')[0];
+        embedPath = urlParts;
+      }
+
+      const iframe = document.getElementById('spotifyPlayer');
+      iframe.src = `https://open.spotify.com/embed/${embedPath}?utm_source=generator&theme=0`;
+    }
+
+    function loadSpotifyFromInput() {
+      const input = document.getElementById('spotifyInput').value.trim();
+      if (input) {
+        loadSpotifyEmbed(input);
+      }
+    }
+
+    // Initialize on page load
+    window.onload = function() {
+      validateInputs();
+      updateVolumeDisplay();
+    };
+  </script>
 </body>
 </html>
