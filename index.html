@@ -78,8 +78,8 @@
             <span class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800 border border-slate-700">
               <i class="fa-solid fa-music text-emerald-400"></i> Audio Overlay Web API
             </span>
-            <!-- Badge de version v0.19 -->
-            <span class="px-2 py-0.5 text-xs font-semibold bg-slate-800 text-slate-300 rounded-md border border-slate-700/85">v0.19</span>
+            <!-- Badge de version v0.21 -->
+            <span class="px-2 py-0.5 text-xs font-semibold bg-slate-800 text-slate-300 rounded-md border border-slate-700/85">v0.21</span>
           </div>
         </div>
       </div>
@@ -248,78 +248,96 @@
     <section class="lg:col-span-5 flex flex-col gap-6">
 
       <!-- SPOTIFY EMBED CARD -->
-      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col gap-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col gap-5">
         <div class="flex items-center justify-between">
           <h2 class="font-display font-bold text-lg text-white flex items-center gap-2">
-            <i class="fa-brands fa-spotify text-emerald-500 text-2xl"></i> Musique Spotify
+            <i class="fa-brands fa-spotify text-emerald-500 text-2xl"></i> Choix de la Musique
           </h2>
           <span class="text-[10px] text-emerald-400 bg-emerald-950/60 px-2.5 py-1 rounded-md border border-emerald-800/50 font-semibold">
-            v0.20 - Simple & Rapide
+            v0.21
           </span>
         </div>
 
-        <!-- BOUTON D'OUVERTURE SPOTIFY (APPLICATION & WEB) EN HAUT -->
-        <div class="bg-gradient-to-r from-emerald-950/70 to-slate-950 p-4 rounded-2xl border border-emerald-500/30 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-inner">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/30">
-              <i class="fa-brands fa-spotify text-2xl"></i>
+        <!-- SÉLECTEUR DE MODE ULTRA VISUEL (OPTION 1 vs OPTION 2) -->
+        <div class="space-y-3">
+          
+          <!-- OPTION 1: SPOTIFY EN ARRIÈRE-PLAN (RECOMMANDÉ) -->
+          <div class="relative bg-gradient-to-r from-emerald-950/80 via-slate-900 to-slate-950 p-4 rounded-2xl border-2 border-emerald-500/50 shadow-lg shadow-emerald-500/5 overflow-hidden">
+            <div class="absolute top-0 right-0 bg-emerald-500 text-slate-950 font-black text-[9px] uppercase px-3 py-0.5 rounded-bl-xl tracking-wider">
+              <i class="fa-solid fa-star text-[8px] mr-1"></i> Recommandé
             </div>
-            <div>
-              <span class="text-xs font-bold text-white block">Ouvrir Spotify en arrière-plan</span>
-              <span class="text-[11px] text-slate-400 block leading-tight">Lancez votre musique puis revenez sur QualiTimer</span>
+            
+            <div class="flex items-start gap-3 mb-3">
+              <div class="w-8 h-8 rounded-xl bg-emerald-500 text-slate-950 flex items-center justify-center shrink-0 font-bold mt-0.5">
+                1
+              </div>
+              <div>
+                <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                  Spotify en arrière-plan <span class="text-emerald-400 font-normal text-xs">(Sans limite)</span>
+                </h3>
+                <p class="text-xs text-slate-300 mt-0.5 leading-relaxed">
+                  Musique 100% complète. Lancez votre application puis revenez sur QualiTimer : les signaux sonores retentiront par-dessus.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex gap-2 pl-11">
+              <a href="spotify:" class="flex-1 py-2 px-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold rounded-xl transition flex items-center justify-center gap-2 shadow-md shadow-emerald-500/20">
+                <i class="fa-brands fa-spotify text-sm"></i>
+                <span>Ouvrir l'App</span>
+              </a>
+              <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold rounded-xl transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-globe text-emerald-400 text-xs"></i>
+                <span>Spotify Web</span>
+              </a>
             </div>
           </div>
-          <div class="flex items-center gap-2 shrink-0">
-            <a href="spotify:" class="flex-1 sm:flex-initial px-3.5 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 shadow-md shadow-emerald-500/10">
-              <i class="fa-solid fa-mobile-screen text-xs"></i>
-              <span>App</span>
-            </a>
-            <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" class="flex-1 sm:flex-initial px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5">
-              <i class="fa-solid fa-globe text-xs text-emerald-400"></i>
-              <span>Web</span>
-            </a>
-          </div>
-        </div>
 
-        <!-- SPOTIFY PLAYLIST URL INPUT -->
-        <div class="flex flex-col gap-2">
-          <label for="spotifyUrlInput" class="text-xs text-slate-400 font-medium">Charger une autre playlist via son lien Spotify :</label>
-          <div class="flex gap-2">
-            <input type="text" id="spotifyUrlInput" placeholder="Collez l'URL de votre playlist Spotify..." class="flex-1 bg-slate-950 text-slate-200 text-xs rounded-xl px-3 py-2 border border-slate-700 focus:outline-none focus:border-emerald-500">
-            <button onclick="loadSpotifyFromInput()" class="px-3.5 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-xl text-xs font-bold transition">
-              Charger
-            </button>
-          </div>
-        </div>
+          <!-- OPTION 2: LECTEUR INTÉGRÉ (AVEC LIMITATIONS) -->
+          <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800 flex flex-col gap-3">
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-xl bg-slate-800 text-slate-400 flex items-center justify-center shrink-0 font-bold border border-slate-700 mt-0.5">
+                2
+              </div>
+              <div class="flex-1">
+                <h3 class="text-sm font-bold text-slate-200 flex items-center justify-between">
+                  <span>Lecteur Intégré</span>
+                  <span class="text-[10px] text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-full font-semibold">
+                    <i class="fa-solid fa-triangle-exclamation mr-1"></i>Extraits de 30s
+                  </span>
+                </h3>
+                <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">
+                  Lecteur direct sur cette page. Attention : limité à 30s par titre si vous n'êtes pas connecté à Spotify sur ce navigateur.
+                </p>
+              </div>
+            </div>
 
-        <!-- QUICK PLAYLIST PRESETS -->
-        <div>
-          <span class="text-xs text-slate-400 block mb-2 font-medium">Vos playlists d'entraînement :</span>
-          <div class="flex flex-col gap-2">
-            <button onclick="loadSpotifyEmbed('playlist/3ByuRY3WO3aPFo10iFUorU')" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold transition border border-slate-700/80 flex items-center justify-between text-left">
-              <span class="truncate"><i class="fa-solid fa-fire text-amber-400 mr-2"></i>Viandox - Full Ambiance ! CHAPITAULE !!!!!</span>
-              <i class="fa-brands fa-spotify text-emerald-400 text-sm"></i>
-            </button>
-            <button onclick="loadSpotifyEmbed('playlist/2hSU2w8rGO72fXsukudOiS')" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold transition border border-slate-700/80 flex items-center justify-between text-left">
-              <span class="truncate"><i class="fa-solid fa-bolt text-indigo-400 mr-2"></i>Team Discobolos 2025-2026</span>
-              <i class="fa-brands fa-spotify text-emerald-400 text-sm"></i>
-            </button>
-          </div>
-        </div>
+            <!-- SPOTIFY PLAYLIST URL INPUT -->
+            <div class="flex gap-2 pt-1 border-t border-slate-800/80">
+              <input type="text" id="spotifyUrlInput" placeholder="URL de playlist Spotify..." class="flex-1 bg-slate-900 text-slate-200 text-xs rounded-xl px-3 py-2 border border-slate-700 focus:outline-none focus:border-emerald-500">
+              <button onclick="loadSpotifyFromInput()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-bold transition">
+                Charger
+              </button>
+            </div>
 
-        <!-- SPOTIFY EMBED PLAYER -->
-        <div id="spotifyEmbedBox" class="w-full bg-slate-950 rounded-2xl overflow-hidden min-h-[152px] border border-slate-800 flex items-center justify-center relative">
-          <iframe id="spotifyIframe" src="https://open.spotify.com/embed/playlist/3ByuRY3WO3aPFo10iFUorU?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-        </div>
+            <!-- QUICK PLAYLIST PRESETS -->
+            <div class="flex flex-col gap-1.5">
+              <button onclick="loadSpotifyEmbed('playlist/3ByuRY3WO3aPFo10iFUorU')" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-xl text-xs font-medium transition border border-slate-800 flex items-center justify-between text-left truncate">
+                <span class="truncate"><i class="fa-solid fa-fire text-amber-400 mr-1.5"></i>Viandox - Full Ambiance !</span>
+                <i class="fa-brands fa-spotify text-emerald-400 text-xs shrink-0 ml-2"></i>
+              </button>
+              <button onclick="loadSpotifyEmbed('playlist/2hSU2w8rGO72fXsukudOiS')" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-xl text-xs font-medium transition border border-slate-800 flex items-center justify-between text-left truncate">
+                <span class="truncate"><i class="fa-solid fa-bolt text-indigo-400 mr-1.5"></i>Team Discobolos 2025-2026</span>
+                <i class="fa-brands fa-spotify text-emerald-400 text-xs shrink-0 ml-2"></i>
+              </button>
+            </div>
 
-        <!-- INSTRUCTIONS CARD -->
-        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex flex-col gap-2.5">
-          <div class="flex items-center gap-2 text-emerald-400 font-bold text-xs">
-            <i class="fa-solid fa-circle-info"></i> Astuce : Écouter des titres complets
+            <!-- SPOTIFY EMBED PLAYER -->
+            <div id="spotifyEmbedBox" class="w-full bg-slate-900 rounded-xl overflow-hidden min-h-[152px] border border-slate-800 flex items-center justify-center relative mt-1">
+              <iframe id="spotifyIframe" src="https://open.spotify.com/embed/playlist/3ByuRY3WO3aPFo10iFUorU?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
           </div>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            Pour débloquer la lecture des <strong>chansons entières</strong> directement dans le lecteur ci-dessus (au lieu des extraits de 30 secondes), connectez-vous simplement à votre compte sur <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" class="text-emerald-400 underline font-semibold hover:text-emerald-300">Spotify Web <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a> dans ce même navigateur.
-          </p>
+
         </div>
 
       </div>
