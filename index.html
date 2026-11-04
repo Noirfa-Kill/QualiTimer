@@ -105,7 +105,7 @@
         <h2 class="font-display font-bold text-xl text-white">À propos de QualiTimer</h2>
       </div>
 
-      <!-- ANECDOTE HUMORISTIQUE AU DÉBUT DU ABOUT -->
+      <!-- ANECDOTE HUMORISTIQUE -->
       <div class="bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-2xl p-4 mb-6">
         <h3 class="font-bold text-amber-400 text-sm mb-2 flex items-center gap-2">
           <i class="fa-solid fa-trophy"></i> L'Origine du Projet (La Vraie Histoire !)
@@ -224,7 +224,10 @@
               <button onclick="adjustValue('restSec', 5)" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold flex items-center justify-center transition">+</button>
             </div>
           </div>
-
+          <div class="flex items-center gap-2.5">
+            <h1 class="font-display font-black text-2xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+              Quali<span class="text-emerald-400">Timer</span>
+            </h1>
           <!-- SETS / ROUNDS -->
           <div class="bg-slate-950/60 p-4 rounded-2xl border border-slate-800/80">
             <label class="block text-xs font-semibold uppercase tracking-wider text-indigo-400 mb-2 flex items-center gap-1.5">
@@ -241,18 +244,41 @@
 
     </section>
 
-    <!-- RIGHT / AUDIO & SPOTIFY PREMIUM SECTION (5 Cols on LG) -->
+    <!-- RIGHT / AUDIO & SPOTIFY SECTION (5 Cols on LG) -->
     <section class="lg:col-span-5 flex flex-col gap-6">
 
-      <!-- SPOTIFY SIMPLE GUIDE & EMBED CARD -->
+      <!-- SPOTIFY EMBED CARD -->
       <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col gap-4">
         <div class="flex items-center justify-between">
           <h2 class="font-display font-bold text-lg text-white flex items-center gap-2">
             <i class="fa-brands fa-spotify text-emerald-500 text-2xl"></i> Musique Spotify
           </h2>
           <span class="text-[10px] text-emerald-400 bg-emerald-950/60 px-2.5 py-1 rounded-md border border-emerald-800/50 font-semibold">
-            Simple & Rapide
+            v0.20 - Simple & Rapide
           </span>
+        </div>
+
+        <!-- BOUTON D'OUVERTURE SPOTIFY (APPLICATION & WEB) EN HAUT -->
+        <div class="bg-gradient-to-r from-emerald-950/70 to-slate-950 p-4 rounded-2xl border border-emerald-500/30 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-inner">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/30">
+              <i class="fa-brands fa-spotify text-2xl"></i>
+            </div>
+            <div>
+              <span class="text-xs font-bold text-white block">Ouvrir Spotify en arrière-plan</span>
+              <span class="text-[11px] text-slate-400 block leading-tight">Lancez votre musique puis revenez sur QualiTimer</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <a href="spotify:" class="flex-1 sm:flex-initial px-3.5 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 shadow-md shadow-emerald-500/10">
+              <i class="fa-solid fa-mobile-screen text-xs"></i>
+              <span>App</span>
+            </a>
+            <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" class="flex-1 sm:flex-initial px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5">
+              <i class="fa-solid fa-globe text-xs text-emerald-400"></i>
+              <span>Web</span>
+            </a>
+          </div>
         </div>
 
         <!-- SPOTIFY PLAYLIST URL INPUT -->
@@ -266,7 +292,7 @@
           </div>
         </div>
 
-        <!-- QUICK PLAYLIST PRESETS (EMBED) -->
+        <!-- QUICK PLAYLIST PRESETS -->
         <div>
           <span class="text-xs text-slate-400 block mb-2 font-medium">Vos playlists d'entraînement :</span>
           <div class="flex flex-col gap-2">
@@ -281,26 +307,19 @@
           </div>
         </div>
 
-        <!-- FALLBACK EMBED PLAYER -->
+        <!-- SPOTIFY EMBED PLAYER -->
         <div id="spotifyEmbedBox" class="w-full bg-slate-950 rounded-2xl overflow-hidden min-h-[152px] border border-slate-800 flex items-center justify-center relative">
           <iframe id="spotifyIframe" src="https://open.spotify.com/embed/playlist/3ByuRY3WO3aPFo10iFUorU?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
 
-        <!-- SIMPLE INSTRUCTIONS CARD (DÉPLACÉ EN DESSOUS DU LECTEUR) -->
+        <!-- INSTRUCTIONS CARD -->
         <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex flex-col gap-2.5">
           <div class="flex items-center gap-2 text-emerald-400 font-bold text-xs">
-            <i class="fa-solid fa-circle-info"></i> Astuce : Écouter des titres complets au lieu d'extraits
+            <i class="fa-solid fa-circle-info"></i> Astuce : Écouter des titres complets
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
             Pour débloquer la lecture des <strong>chansons entières</strong> directement dans le lecteur ci-dessus (au lieu des extraits de 30 secondes), connectez-vous simplement à votre compte sur <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" class="text-emerald-400 underline font-semibold hover:text-emerald-300">Spotify Web <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a> dans ce même navigateur.
           </p>
-          <div class="border-t border-slate-800/80 pt-2.5 mt-0.5">
-            <span class="text-[11px] text-slate-400 font-medium block mb-1">Autre option (App Spotify) :</span>
-            <ol class="text-xs text-slate-300 space-y-1 pl-4 list-decimal">
-              <li>Lancez l'application <strong>Spotify</strong> sur votre téléphone ou PC.</li>
-              <li>Démarrez <strong>QualiTimer</strong> : les signaux sonores retentiront par-dessus votre musique !</li>
-            </ol>
-          </div>
         </div>
 
       </div>
@@ -386,89 +405,9 @@
 
   </main>
 
-  <!-- MODAL À PROPOS (ABOUT) -->
-  <div id="aboutModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden transition-opacity duration-300">
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative overflow-hidden flex flex-col gap-6">
-      
-      <!-- Modal Header -->
-      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-            <i class="fa-solid fa-stopwatch text-white text-xl"></i>
-          </div>
-          <div>
-            <h3 class="font-display font-black text-xl text-white">À propos de Quali<span class="text-emerald-400">Timer</span></h3>
-            <span class="text-xs text-slate-400">Le minuteur d'entraînement fluide & musical</span>
-          </div>
-        </div>
-        <button onclick="toggleAboutModal(false)" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition border border-slate-700">
-          <i class="fa-solid fa-xmark text-base"></i>
-        </button>
-      </div>
-
-      <!-- Modal Body / Description -->
-      <div class="space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed overflow-y-auto max-h-[60vh] pr-2">
-        <p>
-          <strong class="text-white">QualiTimer</strong> a été conçu pour offrir une expérience d'entraînement fractionné (HIIT, Tabata, Crossfit, Boxe) fluide, motivante et sans prise de tête.
-        </p>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 my-2">
-          <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800 flex flex-col gap-1.5">
-            <span class="font-bold text-emerald-400 flex items-center gap-2 text-xs uppercase tracking-wider">
-              <i class="fa-solid fa-music"></i> Musique Superposée
-            </span>
-            <p class="text-xs text-slate-400">
-              Profitez de vos meilleures playlists Spotify sans jamais interrompre votre rythme d'exercice.
-            </p>
-          </div>
-          
-          <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800 flex flex-col gap-1.5">
-            <span class="font-bold text-orange-400 flex items-center gap-2 text-xs uppercase tracking-wider">
-              <i class="fa-solid fa-bullhorn"></i> Signaux Audibles
-            </span>
-            <p class="text-xs text-slate-400">
-              Des sons puissants synthétisés en direct (gong, sifflet, alarme) qui se superposent à votre musique.
-            </p>
-          </div>
-
-          <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800 flex flex-col gap-1.5">
-            <span class="font-bold text-indigo-400 flex items-center gap-2 text-xs uppercase tracking-wider">
-              <i class="fa-solid fa-floppy-disk"></i> Sauvegarde Automatique
-            </span>
-            <p class="text-xs text-slate-400">
-              Vos temps d'intervalle, vos sons favoris et le volume sont enregistrés automatiquement sur votre appareil.
-            </p>
-          </div>
-
-          <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800 flex flex-col gap-1.5">
-            <span class="font-bold text-teal-400 flex items-center gap-2 text-xs uppercase tracking-wider">
-              <i class="fa-solid fa-[#1db954]"></i> Liens Directs Spotify
-            </span>
-            <p class="text-xs text-slate-400">
-              Importez la playlist de votre choix en collant simplement son lien direct dans le champ dédié.
-            </p>
-          </div>
-        </div>
-
-        <p class="text-slate-400 text-xs">
-          <strong>Astuce :</strong> Pour une expérience maximale avec des chansons complètes dans le navigateur, connectez-vous à votre compte sur <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" class="text-emerald-400 underline">open.spotify.com</a> dans le même navigateur.
-        </p>
-      </div>
-
-      <!-- Modal Footer -->
-      <div class="border-t border-slate-800 pt-4 flex items-center justify-between">
-        <span class="text-xs text-slate-500">QualiTimer v0.18</span>
-        <button onclick="toggleAboutModal(false)" class="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition">
-          Fermer
-        </button>
-      </div>
-
-    </div>
-  </div>
-
   <!-- JAVASCRIPT LOGIC -->
   <script>
-    // State variables
+    // Variables d'état
     let timerState = 'STOPPED';
     let currentPhase = 'WORK';
     let currentRound = 1;
@@ -558,7 +497,7 @@
       updateVolumeDisplay();
     }
 
-    // --- GENERATEUR AUDIO SYNTHETIQUE LONG & PERCANT ---
+    // --- GENERATEUR AUDIO SYNTHETIQUE WEBAUDIO API ---
     function playSoundEffect(type) {
       try {
         if (masterVolume <= 0) return;
@@ -925,17 +864,6 @@
       const totalRemaining = Math.max(0, totalWorkoutSeconds - totalElapsedSeconds);
       document.getElementById('totalTimeRemaining').innerText = formatTime(totalRemaining);
       document.getElementById('totalTimeElapsed').innerText = formatTime(totalElapsedSeconds);
-    }
-
-    function toggleAboutModal(show) {
-      const modal = document.getElementById('aboutModal');
-      if (modal) {
-        if (show) {
-          modal.classList.remove('hidden');
-        } else {
-          modal.classList.add('hidden');
-        }
-      }
     }
 
     window.onload = function() {
