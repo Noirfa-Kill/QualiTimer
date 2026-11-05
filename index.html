@@ -64,28 +64,28 @@
 <body class="h-full text-slate-100 flex flex-col font-sans selection:bg-emerald-500 selection:text-white">
 
   <!-- TOP HEADER -->
-  <header class="w-full bg-slate-900/80 backdrop-blur border-b border-slate-800 sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-          <i class="fa-solid font-bold text-white text-xl fa-stopwatch"></i>
+  <header class="w-full bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-3.5">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-500 via-indigo-600 to-emerald-400 flex items-center justify-center shadow-lg shadow-emerald-500/30 ring-2 ring-emerald-500/20">
+          <i class="fa-solid font-bold text-white text-2xl fa-stopwatch animate-pulse"></i>
         </div>
-        <div class="flex items-center gap-2.5">
-          <h1 class="font-display font-black text-2xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
-            Quali<span class="text-emerald-400">Timer</span>
+        <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
+          <h1 class="font-display font-black text-3xl sm:text-4xl tracking-tight text-white drop-shadow-md">
+            Quali<span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500 drop-shadow-[0_0_15px_rgba(16,185,129,0.5)]">Timer</span>
           </h1>
-          <div class="flex items-center gap-3 text-xs sm:text-sm text-slate-400">
-            <span class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800 border border-slate-700">
-              <i class="fa-solid fa-music text-emerald-400"></i> Audio Overlay Web API & MP3
+          <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-400">
+            <span class="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800/90 border border-slate-700/80 shadow-inner">
+              <i class="fa-solid fa-music text-emerald-400"></i> Audio Overlay & Sergent MP3
             </span>
-            <!-- Badge de version v0.31 -->
-            <span class="px-2 py-0.5 text-xs font-semibold bg-slate-800 text-slate-300 rounded-md border border-slate-700/85">v0.31</span>
+            <!-- Badge de version v0.32 -->
+            <span class="px-2.5 py-0.5 text-xs font-bold bg-emerald-500/10 text-emerald-400 rounded-lg border border-emerald-500/30">v0.32</span>
           </div>
         </div>
       </div>
       <!-- Bouton À propos dans le Header -->
-      <button onclick="toggleAboutModal(true)" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition flex items-center gap-2">
-        <i class="fa-solid fa-circle-info text-emerald-400"></i>
+      <button onclick="toggleAboutModal(true)" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700/80 hover:border-emerald-500/50 shadow-md transition-all flex items-center gap-2 active:scale-95">
+        <i class="fa-solid fa-circle-info text-emerald-400 text-sm"></i>
         <span>À propos</span>
       </button>
     </div>
@@ -148,15 +148,27 @@
       <!-- DISPLAY CARD -->
       <div id="timerCard" class="bg-slate-900 border-2 border-slate-800 rounded-3xl p-6 sm:p-8 transition-all duration-500 relative overflow-hidden shadow-2xl">
         
+        <!-- HEADER INTERNE DU TIMER CARD (BRANDING FORT) -->
+        <div class="flex items-center justify-between pb-4 border-b border-slate-800/80 mb-5">
+          <div class="flex items-center gap-2.5">
+            <h2 class="font-display font-black text-xl sm:text-2xl text-white tracking-tight">
+              Quali<span class="text-emerald-400">Timer</span>
+            </h2>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 border border-amber-500/30 flex items-center gap-1">
+              <i class="fa-solid fa-person-military-pointing text-xs"></i> Sergent Workout
+            </span>
+          </div>
+          <div class="text-slate-400 text-xs sm:text-sm font-medium">
+            Série : <span id="currentRoundDisplay" class="text-white font-bold text-base">0</span> / <span id="totalRoundsDisplay" class="text-slate-400">5</span>
+          </div>
+        </div>
+
         <!-- Status Indicator Bar -->
         <div class="flex items-center justify-between mb-4">
           <span id="phaseBadge" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider bg-slate-800 text-slate-400 border border-slate-700">
             <span class="w-2.5 h-2.5 rounded-full bg-slate-500" id="phaseDot"></span>
             <span id="phaseText">Prêt à démarrer</span>
           </span>
-          <div class="text-slate-400 text-xs sm:text-sm font-medium">
-            Série : <span id="currentRoundDisplay" class="text-white font-bold text-base">0</span> / <span id="totalRoundsDisplay" class="text-slate-400">5</span>
-          </div>
         </div>
 
         <!-- BIG COUNTDOWN DISPLAY -->
@@ -251,7 +263,7 @@
             <i class="fa-brands fa-spotify text-emerald-500 text-2xl"></i> Choix de la Musique
           </h2>
           <span class="text-[10px] text-emerald-400 bg-emerald-950/60 px-2.5 py-1 rounded-md border border-emerald-800/50 font-semibold">
-            v0.31
+            v0.32
           </span>
         </div>
 
