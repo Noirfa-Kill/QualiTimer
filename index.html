@@ -79,7 +79,7 @@
               Quali<span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300 drop-shadow-[0_0_15px_rgba(52,211,153,0.4)]">Timer</span>
             </h1>
             <!-- BADGE VERSION -->
-            <span class="px-2.5 py-0.5 text-xs font-black bg-emerald-500/20 text-emerald-400 rounded-md border border-emerald-500/40 tracking-wider">v0.33</span>
+            <span class="px-2.5 py-0.5 text-xs font-black bg-emerald-500/20 text-emerald-400 rounded-md border border-emerald-500/40 tracking-wider">v0.34</span>
           </div>
           <!-- SLOGAN / TITRE DE MARQUE -->
           <p class="text-xs font-bold text-slate-400 flex items-center gap-1.5 tracking-wide">
@@ -124,16 +124,16 @@
           s'entraînait régulièrement dans un silence de cathédrale tragique... simplement parce que son ancienne application d'intervalle coupait ou empêchait de mettre sa musique d'ambiance !
         </p>
         <p class="text-xs text-slate-300 leading-relaxed">
-          Incapable de lancer ses marteaux et poids sans gros son, il a fallu créer l'outil ultime : un minuteur ultra-précis dont les signaux sonores se superposent à Spotify sans jamais couper le rythme ! 🏋️‍♂️🎶
+          Incapable de lancer ses marteaux et poids sans gros son, il a fallu créer l'outil ultime : un minuteur ultra-précis dont les signaux sonores amplifiés se superposent à Spotify sans jamais couper le rythme ! 🏋️‍♂️🎶
         </p>
       </div>
 
       <div class="space-y-4 text-xs text-slate-300 leading-relaxed">
         <h4 class="font-bold text-white text-sm">Ce que propose l'application :</h4>
         <ul class="space-y-2 list-disc pl-4 text-slate-300">
-          <li><strong>Sons MP3 et WebAudio Synth</strong> : Fichiers audio du Sergent et signaux audibles sans interruption de la musique Spotify.</li>
-          <li><strong>Sauvegarde automatique</strong> : Vos durées d'exercice, de repos et choix de playlists sont conservés d'une visite à l'autre.</li>
-          <li><strong>Playlists Directes</strong> : Accès immédiat aux sélections mythiques du club.</li>
+          <li><strong>Sons MP3 amplifiés (Boost 200%) & WebAudio Synth</strong> : Voix du Sergent boostées pour percer par-dessus Spotify sans interruption.</li>
+          <li><strong>Anti-veille automatique (Wake Lock)</strong> : Maintient l'écran du téléphone allumé pendant toute la séance.</li>
+          <li><strong>Sauvegarde automatique</strong> : Vos durées d'exercice, de repos, volume et choix de playlists sont conservés.</li>
         </ul>
       </div>
 
@@ -155,10 +155,14 @@
       <div id="timerCard" class="bg-slate-900 border-2 border-slate-800 rounded-3xl p-6 sm:p-8 transition-all duration-500 relative overflow-hidden shadow-2xl">
         
         <!-- HEADER INTERNE CARTE MINUTEUR -->
-        <div class="flex items-center justify-between pb-4 border-b border-slate-800/80 mb-5">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-800/80 mb-5 gap-2 flex-wrap">
           <div class="flex items-center gap-2">
             <span class="font-display font-black text-lg text-slate-200">Quali<span class="text-emerald-400">Timer</span></span>
             <span class="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-400 border border-emerald-800">Sergent Workout</span>
+            <!-- INDICATEUR ANTI-VEILLE -->
+            <span id="wakeLockBadge" class="hidden items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30" title="L'écran reste allumé pendant l'entraînement">
+              <i class="fa-solid fa-sun text-[9px]"></i> Écran actif
+            </span>
           </div>
           <div class="text-slate-400 text-xs sm:text-sm font-medium">
             Série : <span id="currentRoundDisplay" class="text-white font-bold text-base">0</span> / <span id="totalRoundsDisplay" class="text-slate-400">5</span>
@@ -265,7 +269,7 @@
             <i class="fa-brands fa-spotify text-emerald-500 text-2xl"></i> Choix de la Musique
           </h2>
           <span class="text-[10px] text-emerald-400 bg-emerald-950/60 px-2.5 py-1 rounded-md border border-emerald-800/50 font-semibold">
-            v0.33
+            v0.34
           </span>
         </div>
 
@@ -287,7 +291,7 @@
                   Spotify en arrière-plan <span class="text-emerald-400 font-normal text-xs">(Sans limite)</span>
                 </h3>
                 <p class="text-xs text-slate-300 mt-0.5 leading-relaxed">
-                  Musique 100% complète. Lancez votre application puis revenez sur QualiTimer : les signaux sonores retentiront par-dessus.
+                  Musique 100% complète. Lancez votre application puis revenez sur QualiTimer : l'écran restera allumé et les signaux retentiront par-dessus.
                 </p>
               </div>
             </div>
@@ -359,24 +363,24 @@
           <h2 class="font-display font-bold text-lg text-white flex items-center gap-2">
             <i class="fa-solid fa-volume-high text-emerald-400"></i> Signal Audio Superposé
           </h2>
-          <span class="text-xs text-slate-400 bg-slate-800 px-2.5 py-1 rounded-full border border-slate-700">MP3 & Synthé</span>
+          <span class="text-xs text-amber-300 bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/30 font-semibold">Boost MP3 Actif</span>
         </div>
 
         <p class="text-xs text-slate-400 mb-4">
-          Ces bips, cloches et voix se superposent harmonieusement à ta musique Spotify sans l'interrompre.
+          Pré-amplification audio intégrée pour que la voix du Sergent ressorte nettement par-dessus Spotify sans couper la musique.
         </p>
 
-        <!-- VOLUME CONTROL SLIDER -->
+        <!-- VOLUME CONTROL SLIDER (JUSQU'À 200% BOOST) -->
         <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800 mb-4">
           <div class="flex items-center justify-between mb-2">
             <label for="volumeControl" class="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
-              <i class="fa-solid fa-volume-low text-emerald-400" id="volumeIcon"></i> Volume des signaux
+              <i class="fa-solid fa-volume-high text-emerald-400" id="volumeIcon"></i> Amplification signaux
             </label>
-            <span id="volumePercentDisplay" class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">80%</span>
+            <span id="volumePercentDisplay" class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">130% (Boost)</span>
           </div>
           <div class="flex items-center gap-3">
             <button onclick="adjustVolume(-10)" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center justify-center transition border border-slate-700">-</button>
-            <input type="range" id="volumeControl" min="0" max="100" value="80" oninput="updateVolumeDisplay()" class="flex-1 h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+            <input type="range" id="volumeControl" min="0" max="200" value="130" oninput="updateVolumeDisplay()" class="flex-1 h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
             <button onclick="adjustVolume(10)" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center justify-center transition border border-slate-700">+</button>
           </div>
         </div>
@@ -444,7 +448,7 @@
         <span>Créé avec passion par</span>
         <span class="font-bold text-slate-200 underline decoration-emerald-500/50 underline-offset-4">Benjamin Noirfalisse</span>
         <span>•</span>
-        <span class="text-slate-500">QualiTimer v0.33</span>
+        <span class="text-slate-500">QualiTimer v0.34</span>
       </p>
     </div>
   </footer>
@@ -462,9 +466,11 @@
     
     let phaseTimeRemaining = 30;
     let timerInterval = null;
+    let lastTickTimestamp = null;
     let totalElapsedSeconds = 0;
-    let masterVolume = 0.8;
+    let masterVolume = 1.3; // 130% par défaut pour dominer Spotify
     let audioCtx = null;
+    let wakeLockSentinel = null;
     let currentPlaylistPath = 'playlist/3ByuRY3WO3aPFo10iFUorU';
 
     function toggleAboutModal(show) {
@@ -476,6 +482,56 @@
         modal.classList.add('hidden');
       }
     }
+
+    // --- GESTION ANTI-VEILLE (SCREEN WAKE LOCK API) ---
+    async function requestWakeLock() {
+      if ('wakeLock' in navigator) {
+        try {
+          if (wakeLockSentinel) return;
+          wakeLockSentinel = await navigator.wakeLock.request('screen');
+          updateWakeLockUI(true);
+          wakeLockSentinel.addEventListener('release', () => {
+            wakeLockSentinel = null;
+            updateWakeLockUI(false);
+          });
+        } catch (err) {
+          console.warn("Wake Lock refusé ou non disponible :", err);
+          updateWakeLockUI(false);
+        }
+      }
+    }
+
+    async function releaseWakeLock() {
+      if (wakeLockSentinel) {
+        try {
+          await wakeLockSentinel.release();
+          wakeLockSentinel = null;
+        } catch (err) {
+          console.warn("Erreur libération Wake Lock :", err);
+        }
+      }
+      updateWakeLockUI(false);
+    }
+
+    function updateWakeLockUI(isActive) {
+      const badge = document.getElementById('wakeLockBadge');
+      if (!badge) return;
+      if (isActive) {
+        badge.classList.remove('hidden');
+        badge.classList.add('inline-flex');
+      } else {
+        badge.classList.add('hidden');
+        badge.classList.remove('inline-flex');
+      }
+    }
+
+    // Réactiver automatiquement le Wake Lock quand l'utilisateur revient sur l'onglet
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && timerState === 'RUNNING') {
+        requestWakeLock();
+        tick(); // Resynchronise immédiatement l'affichage
+      }
+    });
 
     function getAudioContext() {
       if (!audioCtx) {
@@ -516,14 +572,14 @@
 
       const percentDisplay = document.getElementById('volumePercentDisplay');
       if (percentDisplay) {
-        percentDisplay.innerText = `${val}%`;
+        percentDisplay.innerText = val > 100 ? `${val}% (Boost)` : `${val}%`;
       }
 
       const volumeIcon = document.getElementById('volumeIcon');
       if (volumeIcon) {
         if (val === 0) {
           volumeIcon.className = 'fa-solid fa-volume-xmark text-slate-500';
-        } else if (val < 50) {
+        } else if (val < 80) {
           volumeIcon.className = 'fa-solid fa-volume-low text-emerald-400';
         } else {
           volumeIcon.className = 'fa-solid fa-volume-high text-emerald-400';
@@ -536,28 +592,52 @@
       const slider = document.getElementById('volumeControl');
       if (!slider) return;
       let val = (parseInt(slider.value) || 0) + delta;
-      val = Math.max(0, Math.min(100, val));
+      val = Math.max(0, Math.min(200, val));
       slider.value = val;
       updateVolumeDisplay();
     }
 
-    // --- GESTION AUDIO (MP3 LOCAUX ET WEBAUDIO API) ---
+    // --- GESTION AUDIO (MP3 AMPLIFIÉS VIA WEBAUDIO & SYNTHÉ) ---
     function playSoundEffect(type) {
       try {
         if (masterVolume <= 0) return;
+        const ctx = getAudioContext();
 
-        // Si le type se termine par .mp3 (Fichiers du Dépôt GitHub)
+        // Si le type se termine par .mp3 : Amplification matérielle via GainNode + Limiteur
         if (type.endsWith('.mp3')) {
           const audio = new Audio(type);
-          audio.volume = masterVolume;
+          audio.crossOrigin = "anonymous";
+          audio.volume = 1.0;
+
+          try {
+            const source = ctx.createMediaElementSource(audio);
+            const gainNode = ctx.createGain();
+            // Multiplicateur de base 2.2x * curseur utilisateur pour surpasser Spotify
+            gainNode.gain.value = masterVolume * 2.2;
+
+            // Compresseur/limiteur pour éviter le grésillement sur haut-parleur téléphone
+            const compressor = ctx.createDynamicsCompressor();
+            compressor.threshold.setValueAtTime(-6, ctx.currentTime);
+            compressor.knee.setValueAtTime(12, ctx.currentTime);
+            compressor.ratio.setValueAtTime(8, ctx.currentTime);
+            compressor.attack.setValueAtTime(0.003, ctx.currentTime);
+            compressor.release.setValueAtTime(0.25, ctx.currentTime);
+
+            source.connect(gainNode);
+            gainNode.connect(compressor);
+            compressor.connect(ctx.destination);
+          } catch (webAudioErr) {
+            // Repli sécurisé si le navigateur restreint MediaElementSource
+            audio.volume = Math.min(1.0, masterVolume);
+          }
+
           audio.play().catch(err => {
-            console.warn("Impossible de lire le MP3 (blocage navigateur ou fichier introuvable) :", err);
+            console.warn("Impossible de lire le MP3 :", err);
           });
           return;
         }
 
         // Sinon, génération WebAudio Synthétique classique
-        const ctx = getAudioContext();
         const now = ctx.currentTime;
 
         if (type === 'boxingGong') {
@@ -574,7 +654,7 @@
             oscHarmonic.frequency.setValueAtTime(freq * 2.76, startTime);
             oscHarmonic.frequency.exponentialRampToValueAtTime(freq * 1.2, startTime + 2.5);
 
-            gain.gain.setValueAtTime(0.7 * masterVolume, startTime);
+            gain.gain.setValueAtTime(0.8 * masterVolume, startTime);
             gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 3.2);
 
             osc.connect(gain);
@@ -606,7 +686,7 @@
 
             mod.connect(osc.frequency);
 
-            gain.gain.setValueAtTime(0.6 * masterVolume, startTime);
+            gain.gain.setValueAtTime(0.7 * masterVolume, startTime);
             gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
 
             osc.connect(gain);
@@ -631,7 +711,7 @@
             osc.frequency.setValueAtTime(880, startTime);
             osc.frequency.setValueAtTime(1760, startTime + 0.15);
 
-            gain.gain.setValueAtTime(0.5 * masterVolume, startTime);
+            gain.gain.setValueAtTime(0.6 * masterVolume, startTime);
             gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.45);
 
             osc.connect(gain);
@@ -658,7 +738,7 @@
               osc.type = 'triangle';
               osc.frequency.setValueAtTime(freq, startTime);
 
-              gain.gain.setValueAtTime(0.35 * masterVolume, startTime);
+              gain.gain.setValueAtTime(0.45 * masterVolume, startTime);
               gain.gain.exponentialRampToValueAtTime(0.001, startTime + chord.dur);
 
               osc.connect(gain);
@@ -736,7 +816,7 @@
           if (settings.workSec) document.getElementById('workSec').value = settings.workSec;
           if (settings.restSec) document.getElementById('restSec').value = settings.restSec;
           if (settings.totalRounds) document.getElementById('totalRounds').value = settings.totalRounds;
-          if (settings.volume) document.getElementById('volumeControl').value = settings.volume;
+          if (settings.volume !== undefined) document.getElementById('volumeControl').value = settings.volume;
           if (settings.workSound) document.getElementById('workSound').value = settings.workSound;
           if (settings.restSound) document.getElementById('restSound').value = settings.restSound;
           if (settings.finishSound) document.getElementById('finishSound').value = settings.finishSound;
@@ -764,6 +844,8 @@
 
     function startTimer() {
       timerState = 'RUNNING';
+      requestWakeLock(); // Empêche le téléphone de se mettre en veille
+
       const btn = document.getElementById('startPauseBtn');
       const icon = document.getElementById('startPauseIcon');
       const text = document.getElementById('startPauseText');
@@ -777,14 +859,17 @@
         if (phaseTimeRemaining === workDuration && currentRound === 1 && currentPhase === 'WORK') {
           playSoundEffect(document.getElementById('workSound').value);
         }
-        timerInterval = setInterval(tick, 1000);
+        lastTickTimestamp = Date.now();
+        timerInterval = setInterval(tick, 250); // Vérification haute précision toutes les 250ms
       }
     }
 
     function pauseTimer() {
       timerState = 'PAUSED';
+      releaseWakeLock();
       clearInterval(timerInterval);
       timerInterval = null;
+      lastTickTimestamp = null;
 
       const btn = document.getElementById('startPauseBtn');
       const icon = document.getElementById('startPauseIcon');
@@ -799,7 +884,10 @@
     function resetTimer() {
       clearInterval(timerInterval);
       timerInterval = null;
+      lastTickTimestamp = null;
       timerState = 'STOPPED';
+      releaseWakeLock();
+
       currentPhase = 'WORK';
       currentRound = 1;
       totalElapsedSeconds = 0;
@@ -818,20 +906,31 @@
 
     function tick() {
       if (timerState !== 'RUNNING') return;
-      totalElapsedSeconds++;
-      phaseTimeRemaining--;
 
-      if (phaseTimeRemaining <= 0) {
-        if (currentPhase === 'WORK') {
-          if (restDuration > 0 && currentRound <= totalRounds) {
-            currentPhase = 'REST';
-            phaseTimeRemaining = restDuration;
-            playSoundEffect(document.getElementById('restSound').value);
-          } else {
+      const now = Date.now();
+      if (!lastTickTimestamp) lastTickTimestamp = now;
+      const elapsedWholeSeconds = Math.floor((now - lastTickTimestamp) / 1000);
+
+      if (elapsedWholeSeconds < 1) return;
+      lastTickTimestamp += elapsedWholeSeconds * 1000;
+
+      for (let i = 0; i < elapsedWholeSeconds; i++) {
+        if (timerState !== 'RUNNING') break;
+        totalElapsedSeconds++;
+        phaseTimeRemaining--;
+
+        if (phaseTimeRemaining <= 0) {
+          if (currentPhase === 'WORK') {
+            if (restDuration > 0 && currentRound <= totalRounds) {
+              currentPhase = 'REST';
+              phaseTimeRemaining = restDuration;
+              playSoundEffect(document.getElementById('restSound').value);
+            } else {
+              advanceRoundOrFinish();
+            }
+          } else if (currentPhase === 'REST') {
             advanceRoundOrFinish();
           }
-        } else if (currentPhase === 'REST') {
-          advanceRoundOrFinish();
         }
       }
       updateDisplay();
@@ -847,8 +946,10 @@
         currentPhase = 'FINISHED';
         phaseTimeRemaining = 0;
         timerState = 'STOPPED';
+        releaseWakeLock();
         clearInterval(timerInterval);
         timerInterval = null;
+        lastTickTimestamp = null;
         playSoundEffect(document.getElementById('finishSound').value);
 
         const btn = document.getElementById('startPauseBtn');
